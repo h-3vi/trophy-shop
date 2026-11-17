@@ -1,13 +1,14 @@
 """Фабрика приложения. Регистрация расширений и blueprint'ов."""
 from datetime import datetime
-from flask import Flask, render_template
+
+from flask import Flask
 
 from .config import BASE_DIR, Config
 from .extensions import csrf, db, login_manager
 from .models import ORDER_STATUSES, Category
 from .seed import register_commands
 from .utils import cart_count, money
-from .views import auth_bp, shop_bp
+from .views import admin_bp, auth_bp, shop_bp
 
 
 def create_app(config_class=Config):
@@ -16,15 +17,16 @@ def create_app(config_class=Config):
     app.json.ensure_ascii = False
 
     (BASE_DIR / "logs").mkdir(exist_ok=True)
-    uploads_dir = app.config["UPLOAD_FOLDER"]
-    (BASE_DIR / uploads_dir).mkdir(parents=True, exist_ok=True)
-
+    uploads_dir = app.confi
     db.init_app(app)
     login_manager.init_app(app)
-    csrf.init_app(app)
+    csrf.init_app(app)g["UPLOAD_FOLDER"]
+    (BASE_DIR / uploads_dir).mkdir(parents=True, exist_ok=True)
+
 
     app.register_blueprint(shop_bp)
     app.register_blueprint(auth_bp)
+    app.register_blueprint(admin_bp)
 
     register_commands(app)
 
