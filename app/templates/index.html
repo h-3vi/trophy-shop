@@ -5,7 +5,7 @@
 <section class="hero" data-testid="hero-slider">
   <div class="slides" id="slides">
     <div class="slide is-active" data-testid="slide"
-         style="background-image:url('{{ url_for('static', filename='img/slides/dawn-lake.svg') }}')">
+         style="background-image:url('{{ url_for('static', filename='img/slides/slide-1.png') }}')">
       <div class="container slide-content">
         <span class="slide-tag">Сезон открыт</span>
         <h1>Снасти, которым доверяешь</h1>
@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="slide" data-testid="slide"
-         style="background-image:url('{{ url_for('static', filename='img/slides/misty-river.svg') }}')">
+         style="background-image:url('{{ url_for('static', filename='img/slides/slide-2.png') }}')">
       <div class="container slide-content">
         <span class="slide-tag">Охота 2026</span>
         <h1>Оптика и снаряжение</h1>
@@ -23,17 +23,17 @@
       </div>
     </div>
     <div class="slide" data-testid="slide"
-         style="background-image:url('{{ url_for('static', filename='img/slides/autumn-taiga.svg') }}')">
+         style="background-image:url('{{ url_for('static', filename='img/slides/slide-3.png') }}')">
       <div class="container slide-content">
         <span class="slide-tag">Кемпинг</span>
         <h1>Комфорт в любой погоде</h1>
         <p>Палатки, спальники и термосы: ночёвка у реки без сюрпризов.</p>
-        <a class="btn btn-accent" href="{{ url_for('shop.catalog', category='kemping') }}>Раздел «Кемпинг»</a>
+        <a class="btn btn-accent" href="{{ url_for('shop.catalog', category='kemping') }}">Раздел «Кемпинг»</a>
       </div>
     </div>
   </div>
-  <button class="slider-btn prev" data-testid="slider-prev" aria-label="Предыдущий слайд">‹</button>
-  <button class="slider-btn next" data-testid="slider-next" aria-label="Следующий слайд">›</button>
+  <button class="slider-btn prev" type="button" data-testid="slider-prev" aria-label="Предыдущий слайд">&#8249;</button>
+  <button class="slider-btn next" type="button" data-testid="slider-next" aria-label="Следующий слайд">&#8250;</button>
   <div class="slider-dots" id="slider-dots"></div>
 </section>
 
