@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container error-wrap">
+  <div class="error-code">403</div>
+  <p>Доступ запрещён. Эта страница только для сотрудников магазина.</p>
+  <a class="btn btn-accent" href="{{ url_for('shop.index') }}">На главную</a>
+</div>
+{% endblock %}

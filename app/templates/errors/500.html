@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container error-wrap">
+  <div class="error-code">500</div>
+  <p>Что-то пошло не так на сервере. Мы уже записали ошибку в журнал — попробуйте ещё раз.</p>
+  <a class="btn btn-accent" href="{{ url_for('shop.index') }}">На главную</a>
+</div>
+{% endblock %}

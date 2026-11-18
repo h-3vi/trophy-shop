@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% from "macros.html" import product_card %}
+
+{% block content %}
+<div class="container page-head">
+  <div class="breadcrumbs"><a href="{{ url_for('shop.index') }}">Главная</a> / Каталог</div>
+  <h1>{{ selected_category.name if selected_category else 'Каталог товаров' }}</h1>
+</div>
+
+<div class="container">
+  <form class="filters" method="get" action="{{ url_for('shop.catalog') }}">
+    <div class="filters-row">
+      <label class="field" style="flex:1; min-width:220px;">Поиск
+        <input class="input" type="text" name="q" value="{{ q }}"
+               placeholder="Например: спиннинг" data-testid="search-input">
+      </label>
+      <button class="btn btn-accent" type="submit" data-testid="search-button">Найти</button>
+    </div>
+    <div class="filters-row">
+      <label class="field">Категория
+        <select class="input" name="category" data-testid="category-filter">
+          <option value="">Все категории</option>
+          {% for category in nav_categories %}
+            <option value="{{ category.slug }}"
+                    {% if selected_category and selected_category.slug == category.slug %}selected{% endif %}>{{ category.name }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label class="field">Цена от
+        <input class="input" style="width:110px;" type="number" name="price_min" value="{{ price_min }}" min="0" data-testid="price-min">
+      </label>
+      <label class="field">до
+        <input class="input" style="width:110px;" type="number" name="price_max" value="{{ price_max }}" min="0" data-testid="price-max">
+      </label>
+      <label class="field">Сортировка
+        <select class="input" name="sort" data-testid="sort-select">
+          <option value="new" {% if sort == 'new' %}selected{% endif %}>Сначала новые</option>
+          <option value="price_asc" {% if sort == 'price_asc' %}selected{% endif %}>Сначала дешёвые</option>
+          <option value="price_desc" {% if sort == 'price_desc' %}selected{% endif %}>Сначала дорогие</option>
+          <option value="name" {% if sort == 'name' %}selected{% endif %}>По названию</option>
+        </select>
+      </label>
+      <label class="check" style="padding-bottom:10px;">
+        <input type="checkbox" name="in_stock" value="1" {% if in_stock %}checked{% endif %} data-testid="in-stock"> В наличии
+      </label>
+      <button class="btn btn-accent" type="submit" data-testid="filter-apply">Применить</button>
+    </div>
+  </form>
+
+  {% if products %}
+    <div class="grid">
+      {% for product in products %}{{ product_card(product) }}{% endfor %}
+    </div>
+    {% if pagination.pages > 1 %}
+      <nav class="pagination">
+        {% if pagination.has_prev %}
+          <a href="{{ url_for('shop.catalog', page=pagination.prev_num, q=q, category=selected_category.slug if selected_category else None, sort=sort) }}">←</a>
+        {% endif %}
+        {% for page_num in pagination.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+          {% if page_num %}
+            {% if page_num == pagination.page %}
+              <span class="current">{{ page_num }}</span>
+            {% else %}
+              <a href="{{ url_for('shop.catalog', page=page_num, q=q, category=selected_category.slug if selected_category else None, sort=sort) }}">{{ page_num }}</a>
+            {% endif %}
+          {% else %}
+            <span>…</span>
+          {% endif %}
+        {% endfor %}
+        {% if pagination.has_next %}
+          <a data-testid="pagination-next" href="{{ url_for('shop.catalog', page=pagination.next_num, q=q, category=selected_category.slug if selected_category else None, sort=sort) }}">→</a>
+        {% endif %}
+      </nav>
+    {% endif %}
+  {% else %}
+    <div class="empty-state" data-testid="empty-result">
+      <span>🔍</span>
+      По вашему запросу ничего не найдено. Попробуйте изменить фильтры.
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="pay-wrap">
+  <form class="pay-card" method="post">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <span class="muted">Эмулятор платёжного шлюза · тестовый режим</span>
+    <h2>Оплата заказа {{ order.number }}</h2>
+    <div class="pay-amount">{{ order.total|money }}</div>
+    <p class="pay-hint">Тестовая карта: 4242 4242 4242 4242, любой срок и CVC. Реальные деньги не списываются.</p>
+    <div class="pay-actions">
+      <button class="btn btn-accent btn-block" type="submit" name="result" value="success" data-testid="pay-success">Оплатить</button>
+      <button class="btn btn-danger btn-block" type="submit" name="result" value="fail" data-testid="pay-fail">Отклонить платёж</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

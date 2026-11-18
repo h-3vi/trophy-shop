@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container page-head"><h1>Оформление заказа</h1></div>
+<div class="container checkout-layout">
+  <form class="form-card" method="post" novalidate>
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <h2>Данные получателя</h2>
+    <div class="form-grid">
+      <label class="field">Имя и фамилия *
+        <input class="input {% if errors.name %}error{% endif %}" name="name"
+               value="{{ form.get('name', '') }}" data-testid="input-name">
+        {% if errors.name %}<span class="field-error" data-testid="error-name">{{ errors.name }}</span>{% endif %}
+      </label>
+      <label class="field">Телефон *
+        <input class="input {% if errors.phone %}error{% endif %}" name="phone"
+               value="{{ form.get('phone', '') }}" placeholder="+7 900 000-00-00" data-testid="input-phone">
+        {% if errors.phone %}<span class="field-error" data-testid="error-phone">{{ errors.phone }}</span>{% endif %}
+      </label>
+      <label class="field wide">Электронная почта *
+        <input class="input {% if errors.email %}error{% endif %}" type="email" name="email"
+               value="{{ form.get('email', '') }}" data-testid="input-email">
+        {% if errors.email %}<span class="field-error" data-testid="error-email">{{ errors.email }}</span>{% endif %}
+      </label>
+      <label class="field wide">Адрес доставки *
+        <input class="input {% if errors.address %}error{% endif %}" name="address"
+               value="{{ form.get('address', '') }}" placeholder="Город, улица, дом, квартира" data-testid="input-address">
+        {% if errors.address %}<span class="field-error" data-testid="error-address">{{ errors.address }}</span>{% endif %}
+      </label>
+      <label class="field wide">Комментарий к заказу
+        <textarea class="input" name="comment" data-testid="input-comment">{{ form.get('comment', '') }}</textarea>
+      </label>
+      <label class="check wide">
+        <input type="checkbox" name="agree" value="1" {% if form.get('agree') %}checked{% endif %} data-testid="input-agree">
+        Согласен на обработку персональных данных *
+      </label>
+      {% if errors.agree %}<span class="field-error" data-testid="error-agree">{{ errors.agree }}</span>{% endif %}
+    </div>
+    <button class="btn btn-accent" type="submit" data-testid="submit-order">Перейти к оплате</button>
+  </form>
+
+  <aside class="form-card">
+    <h2>Ваш заказ</h2>
+    <div class="summary-list">
+      {% for item in items %}
+        <div class="summary-row">
+          <span>{{ item.product.name }} × {{ item.quantity }}</span>
+          <strong>{{ item.subtotal|money }}</strong>
+        </div>
+      {% endfor %}
+    </div>
+    <div class="cart-total-row"><span>Итого</span><strong>{{ total|money }}</strong></div>
+  </aside>
+</div>
+{% endblock %}

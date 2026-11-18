@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container order-hero">
+  <div class="big-icon">✅</div>
+  <h1 data-testid="order-number">Заказ {{ order.number }} оформлен</h1>
+  <p class="muted">от {{ order.created_at|dt }}</p>
+  <p style="margin-top:12px;">
+    <span class="status-badge {{ order.status }}" data-testid="order-status">{{ order.status_label }}</span>
+  </p>
+  {% if order.status == 'new' %}
+    <p style="margin-top:16px;">
+      <a class="btn btn-accent" href="{{ url_for('shop.demo_payment', number=order.number) }}">Перейти к оплате</a>
+    </p>
+  {% endif %}
+</div>
+<div class="container" style="padding-bottom:50px;">
+  <table class="order-table">
+    <tr><th>Товар</th><th>Кол-во</th><th>Цена</th><th>Сумма</th></tr>
+    {% for item in order.items %}
+    <tr>
+      <td>{{ item.title }}</td>
+      <td>{{ item.quantity }}</td>
+      <td>{{ item.price|money }}</td>
+      <td>{{ item.subtotal|money }}</td>
+    </tr>
+    {% endfor %}
+    <tr><td colspan="3"><strong>Итого</strong></td><td><strong>{{ order.total|money }}</strong></td></tr>
+  </table>
+  <p class="muted">Получатель: {{ order.customer_name }}, {{ order.phone }}<br>Адрес: {{ order.address }}</p>
+</div>
+{% endblock %}
