@@ -1,30 +1,114 @@
-{# Карточка товара: используется на главной, в каталоге и в подборках #}
+
 {% macro product_card(product) %}
-<article class="card" data-testid="product-card" data-reveal>
-  <a class="card-media" href="{{ url_for('shop.product', slug=product.slug) }}">
-    {% if product.image %}
-      <img src="{{ url_for('static', filename='uploads/' ~ product.image) }}" alt="{{ product.name }}">
-    {% else %}
-      <div class="card-ph"><span>{{ product.category.icon }}</span></div>
-    {% endif %}
-    {% if product.discount %}<span class="badge-discount">-{{ product.discount }}%</span>{% endif %}
-    {% if not product.in_stock %}<span class="badge-out">Нет в наличии</span>{% endif %}
-  </a>
-  <div class="card-body">
-    <span class="card-cat">{{ product.category.name }}</span>
-    <h3 class="card-title" data-testid="product-title">
-      <a href="{{ url_for('shop.product', slug=product.slug) }}">{{ product.name }}</a>
-    </h3>
-    <div class="card-price" data-testid="product-price">
-      <strong>{{ product.price|money }}</strong>
-      {% if product.old_price %}<s>{{ product.old_price|money }}</s>{% endif %}
+
+<article class="card product-card"
+         data-testid="product-card"
+         data-reveal>
+
+    <a class="card-media"
+       href="{{ url_for('shop.product', slug=product.slug) }}"
+       aria-label="Подробнее: {{ product.name }}">
+
+        {% if product.image %}
+
+            {% if product.image.startswith('products/') %}
+                {% set image_path = 'img/' ~ product.image %}
+            {% elif product.image.startswith('img/') %}
+                {% set image_path = product.image %}
+            {% else %}
+                {% set image_path = 'uploads/' ~ product.image %}
+            {% endif %}
+
+            <img src="{{ url_for('static', filename=image_path) }}"
+                 alt="{{ product.name }}"
+                 loading="lazy"
+                 onerror="this.hidden=true; this.nextElementSibling.hidden=false;">
+
+            <div class="card-ph product-placeholder" hidden>
+                <span>{{ product.category.icon or '🏕️' }}</span>
+                <small>Фото скоро появится</small>
+            </div>
+
+        {% else %}
+
+            <div class="card-ph product-placeholder">
+                <span>{{ product.category.icon or '🏕️' }}</span>
+                <small>Фото скоро появится</small>
+            </div>
+
+        {% endif %}
+
+        {% if product.discount %}
+            <span class="badge-discount">
+                -{{ product.discount }}%
+            </span>
+        {% endif %}
+
+        {% if not product.in_stock %}
+            <span class="badge-out">
+                Нет в наличии
+            </span>
+        {% endif %}
+
+    </a>
+
+    <div class="card-body">
+
+        <span class="card-cat">
+            {{ product.category.name }}
+        </span>
+
+        <h3 class="card-title" data-testid="product-title">
+            <a href="{{ url_for('shop.product', slug=product.slug) }}">
+                {{ product.name }}
+            </a>
+        </h3>
+
+        {% if product.brand %}
+            <span class="product-card-brand">
+                {{ product.brand }}
+            </span>
+        {% endif %}
+
+        <div class="card-price" data-testid="product-price">
+
+            <strong>{{ product.price|money }}</strong>
+
+            {% if product.old_price %}
+                <s>{{ product.old_price|money }}</s>
+            {% endif %}
+
+        </div>
+
+        <form method="post"
+              action="{{ url_for('shop.cart_add', product_id=product.id) }}"
+              class="card-form">
+
+            <input type="hidden"
+                   name="csrf_token"
+                   value="{{ csrf_token() }}">
+
+            <input type="hidden"
+                   name="quantity"
+                   value="1">
+
+            <button class="btn btn-accent btn-block"
+                    type="submit"
+                    data-testid="add-to-cart"
+                    {% if not product.in_stock %}disabled{% endif %}>
+
+                {% if product.in_stock %}
+                    В корзину
+                {% else %}
+                    Нет в наличии
+                {% endif %}
+
+            </button>
+
+        </form>
+
     </div>
-    <form method="post" action="{{ url_for('shop.cart_add', product_id=product.id) }}" class="card-form">
-      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-      <input type="hidden" name="quantity" value="1">
-      <button class="btn btn-accent btn-block" data-testid="add-to-cart"
-              {% if not product.in_stock %}disabled{% endif %}>В корзину</button>
-    </form>
-  </div>
+
 </article>
+
 {% endmacro %}
