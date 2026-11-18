@@ -1,90 +1,195 @@
+
 {% extends "base.html" %}
 {% from "macros.html" import product_card %}
 
 {% block content %}
+
 <section class="hero" data-testid="hero-slider">
-  <div class="slides" id="slides">
-    <div class="slide is-active" data-testid="slide"
-         style="background-image:url('{{ url_for('static', filename='img/slides/slide-1.png') }}')">
-      <div class="container slide-content">
-        <span class="slide-tag">Сезон открыт</span>
-        <h1>Снасти, которым доверяешь</h1>
-        <p>Удилища, катушки и приманки для трофейной рыбалки — проверено на воде.</p>
-        <a class="btn btn-accent" href="{{ url_for('shop.catalog') }}">Смотреть каталог</a>
-      </div>
+    <div class="slides" id="slides">
+
+        <!-- Рыбалка -->
+        <div class="slide is-active" data-testid="slide"
+             style="background-image: url('{{ url_for('static', filename='img/slides/slide-1.png') }}')">
+            <div class="container slide-content">
+                <span class="slide-tag">Для любителей рыбалки</span>
+                <h1>Твой лучший улов начинается здесь</h1>
+                <p>Спиннинги, катушки, приманки и проверенное снаряжение для рыбалки.</p>
+                <a class="btn btn-accent hero-link"
+                   href="{{ url_for('shop.catalog', category='rybalka') }}">
+                    Товары для рыбалки →
+                </a>
+            </div>
+        </div>
+
+        <!-- Охота -->
+        <div class="slide" data-testid="slide"
+             style="background-image: url('{{ url_for('static', filename='img/slides/slide-2.png') }}')">
+            <div class="container slide-content">
+                <span class="slide-tag">Снаряжение для охоты</span>
+                <h1>Готов к любому сезону</h1>
+                <p>Экипировка и аксессуары для комфортного пребывания на природе.</p>
+                <a class="btn btn-accent hero-link"
+                   href="{{ url_for('shop.catalog', category='ohota') }}">
+                    Смотреть снаряжение →
+                </a>
+            </div>
+        </div>
+
+        <!-- Туризм -->
+        <div class="slide" data-testid="slide"
+             style="background-image: url('{{ url_for('static', filename='img/slides/slide-3.png') }}')">
+            <div class="container slide-content">
+                <span class="slide-tag">Для новых приключений</span>
+                <h1>Открой для себя новые маршруты</h1>
+                <p>Палатки, термосы и туристическое оборудование для отдыха на природе.</p>
+                <a class="btn btn-accent hero-link"
+                   href="{{ url_for('shop.catalog', category='turizm') }}">
+                    Всё для туризма →
+                </a>
+            </div>
+        </div>
+
     </div>
-    <div class="slide" data-testid="slide"
-         style="background-image:url('{{ url_for('static', filename='img/slides/slide-2.png') }}')">
-      <div class="container slide-content">
-        <span class="slide-tag">Охота 2026</span>
-        <h1>Оптика и снаряжение</h1>
-        <p>Прицелы, манки и ягдташи для результативного выхода в лес.</p>
-        <a class="btn btn-accent" href="{{ url_for('shop.catalog', category='ohota') }}">Раздел «Охота»</a>
-      </div>
-    </div>
-    <div class="slide" data-testid="slide"
-         style="background-image:url('{{ url_for('static', filename='img/slides/slide-3.png') }}')">
-      <div class="container slide-content">
-        <span class="slide-tag">Кемпинг</span>
-        <h1>Комфорт в любой погоде</h1>
-        <p>Палатки, спальники и термосы: ночёвка у реки без сюрпризов.</p>
-        <a class="btn btn-accent" href="{{ url_for('shop.catalog', category='kemping') }}">Раздел «Кемпинг»</a>
-      </div>
-    </div>
-  </div>
-  <button class="slider-btn prev" type="button" data-testid="slider-prev" aria-label="Предыдущий слайд">&#8249;</button>
-  <button class="slider-btn next" type="button" data-testid="slider-next" aria-label="Следующий слайд">&#8250;</button>
-  <div class="slider-dots" id="slider-dots"></div>
+
+    <button class="slider-btn prev" type="button"
+            data-testid="slider-prev"
+            aria-label="Предыдущий слайд">&#8249;</button>
+
+    <button class="slider-btn next" type="button"
+            data-testid="slider-next"
+            aria-label="Следующий слайд">&#8250;</button>
+
+    <div class="slider-dots" id="slider-dots"></div>
 </section>
 
+<!-- Категории -->
+<section class="section categories-section">
+    <div class="container">
+        <div class="section-head">
+            <div>
+                <span class="section-kicker">ВЫБИРАЙ СВОЁ</span>
+                <h2>Популярные категории</h2>
+            </div>
+            <a class="link-all" href="{{ url_for('shop.catalog') }}">
+                Весь каталог →
+            </a>
+        </div>
+
+        <div class="cat-grid">
+            {% for category in nav_categories %}
+                <a class="cat-tile" data-reveal
+                   href="{{ url_for('shop.catalog', category=category.slug) }}">
+                    <span class="cat-icon">{{ category.icon or '🏕️' }}</span>
+                    <span class="cat-name">{{ category.name }}</span>
+                    <span class="category-arrow">Перейти →</span>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Новинки -->
 <section class="section">
-  <div class="container">
-    <div class="section-head"><h2>Категории</h2></div>
-    <div class="cat-grid">
-      {% for category in nav_categories %}
-        <a class="cat-tile" data-reveal href="{{ url_for('shop.catalog', category=category.slug) }}">
-          <span class="cat-icon">{{ category.icon }}</span>
-          <span class="cat-name">{{ category.name }}</span>
-        </a>
-      {% endfor %}
+    <div class="container">
+        <div class="section-head">
+            <div>
+                <span class="section-kicker">НОВОЕ ПОСТУПЛЕНИЕ</span>
+                <h2>Новинки магазина</h2>
+            </div>
+            <a class="link-all" href="{{ url_for('shop.catalog') }}">
+                Все товары →
+            </a>
+        </div>
+
+        <div class="grid">
+            {% for product in novelties %}
+                {{ product_card(product) }}
+            {% else %}
+                <p>Скоро здесь появятся новые товары.</p>
+            {% endfor %}
+        </div>
     </div>
-  </div>
 </section>
 
-<section class="section">
-  <div class="container">
-    <div class="section-head">
-      <h2>Новинки</h2>
-      <a class="link-all" href="{{ url_for('shop.catalog') }}">Все товары →</a>
-    </div>
-    <div class="grid">
-      {% for product in novelties %}{{ product_card(product) }}{% endfor %}
-    </div>
-  </div>
-</section>
-
+<!-- Акции -->
 {% if deals %}
-<section class="section section-alt">
-  <div class="container">
-    <div class="section-head"><h2>Успей со скидкой</h2></div>
-    <div class="grid">
-      {% for product in deals %}{{ product_card(product) }}{% endfor %}
+<section class="section section-alt deals-section">
+    <div class="container">
+        <div class="section-head">
+            <div>
+                <span class="section-kicker">СПЕЦИАЛЬНЫЕ ПРЕДЛОЖЕНИЯ</span>
+                <h2>Выгодные покупки</h2>
+            </div>
+            <a class="link-all" href="{{ url_for('shop.catalog') }}">
+                Смотреть каталог →
+            </a>
+        </div>
+
+        <div class="deals-layout">
+            <div class="deals-promo">
+                <span class="deals-promo-label">Выгодные предложения</span>
+                <h3>Хорошее снаряжение по приятной цене</h3>
+                <p>Подборка товаров со сниженной стоимостью для твоих путешествий.</p>
+                <a href="{{ url_for('shop.catalog') }}"
+                   class="btn deals-promo-btn">
+                    Перейти в каталог →
+                </a>
+            </div>
+
+            <div class="deals-products">
+                {% for product in deals %}
+                    {{ product_card(product) }}
+                {% endfor %}
+            </div>
+        </div>
     </div>
-  </div>
 </section>
 {% endif %}
 
-<section class="section">
-  <div class="container features">
-    <div class="feature" data-reveal>
-      <span>🚚</span><h3>Доставка по России</h3><p>Отправим заказ в день оплаты</p>
+<!-- Преимущества -->
+<section class="section benefits-section">
+    <div class="container">
+
+        <div class="benefits-heading">
+            <span class="section-kicker">ПОЧЕМУ ТРОФЕЙ</span>
+            <h2>Всё для твоих приключений</h2>
+            <p>Собирайся на рыбалку, охоту или в поход вместе с нами.</p>
+        </div>
+
+        <div class="benefits-grid">
+            <div class="benefit-card" data-reveal>
+                <div class="benefit-icon">🚚</div>
+                <h3>Удобное оформление</h3>
+                <p>Выбирай товары, добавляй их в корзину и оформляй заказ онлайн.</p>
+            </div>
+
+            <div class="benefit-card" data-reveal>
+                <div class="benefit-icon">🎣</div>
+                <h3>Снаряжение на любой сезон</h3>
+                <p>Товары для рыбалки, охоты, туризма и активного отдыха.</p>
+            </div>
+
+            <div class="benefit-card" data-reveal>
+                <div class="benefit-icon">💚</div>
+                <h3>Удобный выбор</h3>
+                <p>Поиск, категории, сортировка и фильтры помогут найти нужное.</p>
+            </div>
+        </div>
     </div>
-    <div class="feature" data-reveal>
-      <span>🛡️</span><h3>Гарантия качества</h3><p>Только оригинальные бренды</p>
-    </div>
-    <div class="feature" data-reveal>
-      <span>🎣</span><h3>Знаем сами</h3><p>Консультируют практикующие рыболовы и охотники</p>
-    </div>
-  </div>
 </section>
+
+<!-- Финальный баннер -->
+<section class="container">
+    <div class="final-banner">
+        <div>
+            <span class="section-kicker">ТВОЁ СЛЕДУЮЩЕЕ ПРИКЛЮЧЕНИЕ</span>
+            <h2>Пора собираться в дорогу!</h2>
+            <p>Найди подходящее снаряжение в каталоге Трофея.</p>
+        </div>
+        <a class="btn btn-accent" href="{{ url_for('shop.catalog') }}">
+            Выбрать товары →
+        </a>
+    </div>
+</section>
+
 {% endblock %}

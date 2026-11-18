@@ -1,0 +1,537 @@
+
+/* TROPHY SHOP — улучшения витрины */
+
+/* Скрытые элементы не занимают место */
+[hidden] {
+    display: none !important;
+}
+
+/* Исправление некликабельных кнопок слайдера */
+.hero .slide {
+    pointer-events: none;
+    visibility: hidden;
+}
+
+.hero .slide.is-active {
+    pointer-events: auto;
+    visibility: visible;
+    z-index: 2;
+}
+
+.hero .slide::after {
+    pointer-events: none;
+}
+
+.hero .slide-content {
+    position: relative;
+    z-index: 3;
+}
+
+.hero .hero-link {
+    position: relative;
+    z-index: 4;
+}
+
+.hero .slider-btn,
+.hero .slider-dots {
+    z-index: 10;
+}
+
+/* Заголовки секций */
+.section-kicker {
+    display: block;
+    color: #2e7d32;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1.6px;
+    margin-bottom: 8px;
+}
+
+.section-head {
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.section-head h2 {
+    font-size: clamp(24px, 3vw, 32px);
+}
+
+/* Категории */
+.cat-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.cat-tile {
+    min-height: 170px;
+    justify-content: center;
+    text-align: center;
+    gap: 12px;
+}
+
+.cat-name {
+    color: #171d18;
+    font-weight: 750;
+    font-size: 16px;
+}
+
+.category-arrow {
+    font-size: 12px;
+    color: #2e7d32;
+    font-weight: 700;
+}
+
+/* Карточки */
+.product-card {
+    min-width: 0;
+    height: 100%;
+}
+
+.product-card .card-media {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+}
+
+.product-card .card-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 12px;
+    background: #f1f4f1;
+}
+
+.product-card .card-ph {
+    min-height: 100%;
+}
+
+.product-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: linear-gradient(145deg, #e5eee5, #f4f8f3);
+    color: #2e7d32;
+}
+
+.product-placeholder span {
+    font-size: 48px;
+}
+
+.product-placeholder small {
+    font-size: 12px;
+    color: #6c7c6b;
+    font-weight: 500;
+}
+
+.product-card-brand {
+    color: #7b847b;
+    font-size: 12px;
+}
+
+.product-card .card-price {
+    flex-wrap: wrap;
+}
+
+.product-card .card-form {
+    margin-top: 12px;
+}
+
+/* Блок со скидками: без огромной пустоты */
+.deals-layout {
+    display: grid;
+    grid-template-columns: 300px minmax(0, 1fr);
+    gap: 22px;
+    align-items: stretch;
+}
+
+.deals-promo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 360px;
+    padding: 28px;
+    border-radius: 18px;
+    background: linear-gradient(150deg, #164c2e, #2e7d32);
+    color: white;
+}
+
+.deals-promo-label {
+    color: #c9edcc;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.deals-promo h3 {
+    font-size: 29px;
+    line-height: 1.2;
+    margin: 18px 0;
+}
+
+.deals-promo p {
+    color: #e2f1e4;
+    font-size: 14px;
+}
+
+.deals-promo-btn {
+    background: white;
+    color: #195a2e;
+    margin-top: 24px;
+    font-size: 13px;
+}
+
+.deals-products {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.deals-products .product-card {
+    width: 100%;
+}
+
+/* Преимущества */
+.benefits-section {
+    background: #f5f8f5;
+}
+
+.benefits-heading {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.benefits-heading h2 {
+    font-size: clamp(24px, 3vw, 36px);
+    margin: 8px 0 12px;
+}
+
+.benefits-heading p {
+    color: #69766a;
+}
+
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.benefit-card {
+    background: white;
+    padding: 30px 26px;
+    border: 1px solid #e1e9e1;
+    border-radius: 18px;
+    transition: transform .25s, box-shadow .25s;
+}
+
+.benefit-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 14px 30px rgba(25, 65, 30, .09);
+}
+
+.benefit-icon {
+    display: grid;
+    place-items: center;
+    width: 62px;
+    height: 62px;
+    background: #edf6ee;
+    border-radius: 16px;
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+.benefit-card h3 {
+    margin-bottom: 10px;
+}
+
+.benefit-card p {
+    font-size: 14px;
+    color: #6c756c;
+}
+
+/* Финальный баннер */
+.final-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 38px;
+    background: #e6f0e7;
+    border: 1px solid #cbdccb;
+    border-radius: 20px;
+    margin: 10px auto 50px;
+}
+
+.final-banner h2 {
+    font-size: clamp(24px, 3vw, 32px);
+    margin: 8px 0;
+}
+
+.final-banner p {
+    color: #667467;
+}
+
+/* Страница каталога */
+.catalog-subtitle {
+    margin-top: 8px;
+    color: #6c756c;
+}
+
+.catalog-page {
+    padding-bottom: 32px;
+}
+
+.catalog-filters {
+    position: static !important;
+    display: block;
+    background: white;
+    padding: 24px;
+    border: 1px solid #e0e7e0;
+    border-radius: 16px;
+    margin: 24px 0 30px;
+}
+
+.catalog-filters-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 22px;
+}
+
+.catalog-filters-top h2 {
+    font-size: 21px;
+}
+
+.catalog-filters-top p {
+    font-size: 13px;
+    color: #7b857b;
+}
+
+.filter-reset {
+    color: #2e7d32;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.filter-reset:hover {
+    text-decoration: underline;
+}
+
+.catalog-filters-fields {
+    display: grid;
+    grid-template-columns:
+        minmax(220px, 2fr)
+        minmax(140px, 1.3fr)
+        minmax(95px, .8fr)
+        minmax(95px, .8fr)
+        minmax(150px, 1.3fr);
+    gap: 14px;
+    align-items: end;
+}
+
+.catalog-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 13px;
+    color: #58665b;
+    min-width: 0;
+}
+
+.catalog-field .input {
+    width: 100%;
+    min-width: 0;
+    background: #f7f9f7;
+    border: 1px solid #dfe7df;
+    color: #172117;
+}
+
+.catalog-field .input:focus {
+    border-color: #2e7d32;
+}
+
+.catalog-filters-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-top: 22px;
+    padding-top: 20px;
+    border-top: 1px solid #edf0ed;
+}
+
+.catalog-stock {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.catalog-stock input {
+    accent-color: #2e7d32;
+    width: 18px;
+    height: 18px;
+}
+
+.catalog-result-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+.catalog-result-head h2 {
+    font-size: 24px;
+}
+
+.catalog-result-head p {
+    color: #7a837a;
+    font-size: 14px;
+    margin-top: 6px;
+}
+
+.catalog-all-link {
+    color: #2e7d32;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.catalog-products {
+    align-items: stretch;
+}
+
+.catalog-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 65px 20px;
+    background: white;
+    border-radius: 18px;
+    text-align: center;
+    border: 1px solid #e0e7e0;
+}
+
+.catalog-empty-icon {
+    font-size: 52px;
+}
+
+.catalog-empty p {
+    color: #6b766b;
+}
+
+/* Планшеты */
+@media (max-width: 1000px) {
+    .cat-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .catalog-filters-fields {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .catalog-search {
+        grid-column: span 2;
+    }
+
+    .deals-layout {
+        grid-template-columns: 240px minmax(0, 1fr);
+    }
+}
+
+/* Телефоны */
+@media (max-width: 700px) {
+    .hero {
+        height: 460px;
+    }
+
+    .hero .slide-content {
+        padding: 34px 0;
+    }
+
+    .hero .slide-content h1 {
+        font-size: 30px;
+    }
+
+    .hero .slider-btn {
+        width: 34px;
+        height: 34px;
+    }
+
+    .cat-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .cat-tile {
+        min-height: 135px;
+        padding: 16px 8px;
+    }
+
+    .deals-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .deals-promo {
+        min-height: 240px;
+    }
+
+    .deals-products {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .benefits-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .final-banner {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 25px;
+    }
+
+    .catalog-filters {
+        padding: 18px;
+    }
+
+    .catalog-filters-fields {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .catalog-search {
+        grid-column: 1 / -1;
+    }
+
+    .catalog-filters-bottom {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .catalog-filters-bottom button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 440px) {
+    .deals-products {
+        grid-template-columns: 1fr;
+    }
+
+    .catalog-filters-fields {
+        grid-template-columns: 1fr;
+    }
+
+    .catalog-search {
+        grid-column: auto;
+    }
+
+    .catalog-result-head {
+        flex-wrap: wrap;
+    }
+}
