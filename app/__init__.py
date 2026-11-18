@@ -1,7 +1,7 @@
 """Фабрика приложения. Регистрация расширений и blueprint'ов."""
 from datetime import datetime
 
-from flask import Flask
+from flask import Flask, render_template
 
 from .config import BASE_DIR, Config
 from .extensions import csrf, db, login_manager
@@ -17,12 +17,12 @@ def create_app(config_class=Config):
     app.json.ensure_ascii = False
 
     (BASE_DIR / "logs").mkdir(exist_ok=True)
-    uploads_dir = app.confi
-    db.init_app(app)
-    login_manager.init_app(app)
-    csrf.init_app(app)g["UPLOAD_FOLDER"]
+    uploads_dir = app.config["UPLOAD_FOLDER"]
     (BASE_DIR / uploads_dir).mkdir(parents=True, exist_ok=True)
 
+    db.init_app(app)
+    login_manager.init_app(app)
+    csrf.init_app(app)
 
     app.register_blueprint(shop_bp)
     app.register_blueprint(auth_bp)
@@ -45,6 +45,20 @@ def create_app(config_class=Config):
             "site_name": "Трофей",
             "current_year": datetime.now().year,
         }
+
+    @app.errorhandler(403)
+    def forbidden(error):
+        return render_template("errors/403.html", title="Доступ запрещён"), 403
+
+    @app.errorhandler(404)
+    def not_found(error):
+        return render_template("errors/404.html", title="Страница не найдена"), 404
+
+    @app.errorhandler(500)
+    def server_error(error):
+        db.session.rollback()
+        app.logger.exception("Внутренняя ошибка сервера")
+        return render_template("errors/500.html", title="Ошибка сервера"), 500
 
     with app.app_context():
         db.create_all()

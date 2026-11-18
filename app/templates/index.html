@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% from "macros.html" import product_card %}
+
+{% block content %}
+<section class="hero" data-testid="hero-slider">
+  <div class="slides" id="slides">
+    <div class="slide is-active" data-testid="slide"
+         style="background-image:url('{{ url_for('static', filename='img/slides/slide-1.png') }}')">
+      <div class="container slide-content">
+        <span class="slide-tag">Сезон открыт</span>
+        <h1>Снасти, которым доверяешь</h1>
+        <p>Удилища, катушки и приманки для трофейной рыбалки — проверено на воде.</p>
+        <a class="btn btn-accent" href="{{ url_for('shop.catalog') }}">Смотреть каталог</a>
+      </div>
+    </div>
+    <div class="slide" data-testid="slide"
+         style="background-image:url('{{ url_for('static', filename='img/slides/slide-2.png') }}')">
+      <div class="container slide-content">
+        <span class="slide-tag">Охота 2026</span>
+        <h1>Оптика и снаряжение</h1>
+        <p>Прицелы, манки и ягдташи для результативного выхода в лес.</p>
+        <a class="btn btn-accent" href="{{ url_for('shop.catalog', category='ohota') }}">Раздел «Охота»</a>
+      </div>
+    </div>
+    <div class="slide" data-testid="slide"
+         style="background-image:url('{{ url_for('static', filename='img/slides/slide-3.png') }}')">
+      <div class="container slide-content">
+        <span class="slide-tag">Кемпинг</span>
+        <h1>Комфорт в любой погоде</h1>
+        <p>Палатки, спальники и термосы: ночёвка у реки без сюрпризов.</p>
+        <a class="btn btn-accent" href="{{ url_for('shop.catalog', category='kemping') }}">Раздел «Кемпинг»</a>
+      </div>
+    </div>
+  </div>
+  <button class="slider-btn prev" type="button" data-testid="slider-prev" aria-label="Предыдущий слайд">&#8249;</button>
+  <button class="slider-btn next" type="button" data-testid="slider-next" aria-label="Следующий слайд">&#8250;</button>
+  <div class="slider-dots" id="slider-dots"></div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head"><h2>Категории</h2></div>
+    <div class="cat-grid">
+      {% for category in nav_categories %}
+        <a class="cat-tile" data-reveal href="{{ url_for('shop.catalog', category=category.slug) }}">
+          <span class="cat-icon">{{ category.icon }}</span>
+          <span class="cat-name">{{ category.name }}</span>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <h2>Новинки</h2>
+      <a class="link-all" href="{{ url_for('shop.catalog') }}">Все товары →</a>
+    </div>
+    <div class="grid">
+      {% for product in novelties %}{{ product_card(product) }}{% endfor %}
+    </div>
+  </div>
+</section>
+
+{% if deals %}
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-head"><h2>Успей со скидкой</h2></div>
+    <div class="grid">
+      {% for product in deals %}{{ product_card(product) }}{% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section class="section">
+  <div class="container features">
+    <div class="feature" data-reveal>
+      <span>🚚</span><h3>Доставка по России</h3><p>Отправим заказ в день оплаты</p>
+    </div>
+    <div class="feature" data-reveal>
+      <span>🛡️</span><h3>Гарантия качества</h3><p>Только оригинальные бренды</p>
+    </div>
+    <div class="feature" data-reveal>
+      <span>🎣</span><h3>Знаем сами</h3><p>Консультируют практикующие рыболовы и охотники</p>
+    </div>
+  </div>
+</section>
+{% endblock %}

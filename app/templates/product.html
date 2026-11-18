@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% from "macros.html" import product_card %}
+
+{% block content %}
+<div class="container">
+  <div class="breadcrumbs page-head">
+    <a href="{{ url_for('shop.index') }}">Главная</a> /
+    <a href="{{ url_for('shop.catalog') }}">Каталог</a> /
+    <a href="{{ url_for('shop.catalog', category=product.category.slug) }}">{{ product.category.name }}</a> /
+    {{ product.name }}
+  </div>
+
+  <div class="product-layout">
+    <div class="product-media">
+      {% if product.image and product.image.startswith('http') %}
+        <img src="{{ product.image }}" alt="{{ product.name }}">
+      {% elif product.image %}
+        <img src="{{ url_for('static', filename=product.image) }}" alt="{{ product.name }}">
+      {% else %}
+        <div class="card-ph"><span>{{ product.category.icon }}</span></div>
+      {% endif %}
+    </div>
+    <div class="product-info">
+      <span class="card-cat">{{ product.category.name }} · {{ product.brand }}</span>
+      <h1 data-testid="product-name">{{ product.name }}</h1>
+      <div class="product-price-box">
+        <strong data-testid="product-price">{{ product.price|money }}</strong>
+        {% if product.old_price %}
+          <s>{{ product.old_price|money }}</s>
+          <span class="badge-discount" style="position:static;">-{{ product.discount }}%</span>
+        {% endif %}
+      </div>
+      {% if product.in_stock %}
+        <p class="stock-ok">В наличии: {{ product.stock }} шт.</p>
+      {% else %}
+        <p class="stock-no">Нет в наличии</p>
+      {% endif %}
+      <form method="post" action="{{ url_for('shop.cart_add', product_id=product.id) }}" class="qty-row">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <label class="field">Количество
+          <input class="input" type="number" name="quantity" value="1" min="1"
+                 max="{{ product.stock }}" data-testid="qty-input">
+        </label>
+        <button class="btn btn-accent" type="submit" data-testid="add-to-cart"
+                {% if not product.in_stock %}disabled{% endif %}>В корзину</button>
+      </form>
+      <p class="product-desc" data-testid="product-description">{{ product.description }}</p>
+    </div>
+  </div>
+
+  {% if related %}
+  <section class="section">
+    <div class="section-head"><h2>Похожие товары</h2></div>
+    <div class="grid">{% for item in related %}{{ product_card(item) }}{% endfor %}</div>
+  </section>
+  {% endif %}
+</div>
+{% endblock %}

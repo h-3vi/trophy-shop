@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container page-head"><h1>Корзина</h1></div>
+<div class="container" style="padding-bottom:50px;">
+  {% if items %}
+    <div class="cart-list">
+      {% for item in items %}
+      <div class="cart-item" data-testid="cart-item">
+        <div class="cart-thumb">
+          {% if item.product.image and item.product.image.startswith('http') %}
+            <img src="{{ item.product.image }}" alt="">
+          {% elif item.product.image %}
+            <img src="{{ url_for('static', filename=item.product.image) }}" alt="">
+          {% else %}
+            <div class="card-ph"><span>{{ item.product.category.icon }}</span></div>
+          {% endif %}
+        </div>
+        <div class="cart-name" data-testid="cart-item-name">
+          <a href="{{ url_for('shop.product', slug=item.product.slug) }}">{{ item.product.name }}</a>
+          <div class="muted" style="font-size:13px;">{{ item.product.price|money }} за шт.</div>
+        </div>
+        <form method="post" action="{{ url_for('shop.cart_update', product_id=item.product.id) }}" class="cart-actions">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <input class="input" style="width:70px; text-align:center;" type="number"
+                 name="quantity" value="{{ item.quantity }}" min="1"
+                 max="{{ item.product.stock }}" data-testid="cart-item-qty">
+          <button class="icon-small" type="submit" title="Обновить" data-testid="update-qty">↻</button>
+        </form>
+        <div class="cart-subtotal">{{ item.subtotal|money }}</div>
+        <form method="post" action="{{ url_for('shop.cart_remove', product_id=item.product.id) }}">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button class="icon-small" type="submit" title="Удалить" data-testid="remove-item">✕</button>
+        </form>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="cart-summary">
+      <div class="cart-summary-box">
+        <div class="summary-row"><span>Товаров</span><strong>{{ count }} шт.</strong></div>
+        <div class="cart-total-row"><span>Итого</span><strong data-testid="cart-total">{{ total|money }}</strong></div>
+        <a class="btn btn-accent btn-block" href="{{ url_for('shop.checkout') }}" data-testid="checkout-button">Оформить заказ</a>
+      </div>
+    </div>
+  {% else %}
+    <div class="empty-state" data-testid="cart-empty">
+      <span>🧺</span>
+      Корзина пуста. Загляните в каталог — там клюёт.
+      <div style="margin-top:18px;"><a class="btn btn-accent" href="{{ url_for('shop.catalog') }}">В каталог</a></div>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}
