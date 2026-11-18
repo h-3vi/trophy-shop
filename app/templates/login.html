@@ -1,20 +1,94 @@
+
 {% extends "base.html" %}
 
 {% block content %}
-<div class="login-wrap">
-  <form class="login-card" method="post">
-    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-    <h1>Вход для сотрудников</h1>
-    {% if error %}
-      <div class="flash flash-danger" style="animation:none;" data-testid="login-error">{{ error }}</div>
-    {% endif %}
-    <label class="field">Логин
-      <input class="input" name="username" autofocus data-testid="login-username">
-    </label>
-    <label class="field">Пароль
-      <input class="input" type="password" name="password" data-testid="login-password">
-    </label>
-    <button class="btn btn-accent btn-block" type="submit" data-testid="login-submit">Войти</button>
-  </form>
-</div>
+
+<section class="auth-page">
+
+    <div class="auth-card">
+
+        <div class="auth-icon">🎣</div>
+
+        <div class="auth-heading">
+            <h1>Добро пожаловать!</h1>
+            <p>Войдите в свой аккаунт магазина «Трофей»</p>
+        </div>
+
+        {% if error %}
+        <div class="auth-error" data-testid="login-error">
+            {{ error }}
+        </div>
+        {% endif %}
+
+        <form method="POST" class="auth-form">
+
+            <input
+                type="hidden"
+                name="csrf_token"
+                value="{{ csrf_token() }}"
+            >
+
+            <div class="auth-field">
+                <label for="email">
+                    Электронная почта
+                </label>
+
+                <input
+                    id="email"
+                    type="email"
+                    name="email"
+                    placeholder="example@mail.ru"
+                    value="{{ request.form.get('email', '') }}"
+                    maxlength="120"
+                    autocomplete="email"
+                    data-testid="login-email"
+                    required
+                >
+            </div>
+
+            <div class="auth-field">
+                <label for="password">
+                    Пароль
+                </label>
+
+                <input
+                    id="password"
+                    type="password"
+                    name="password"
+                    placeholder="Введите пароль"
+                    autocomplete="current-password"
+                    data-testid="login-password"
+                    required
+                >
+            </div>
+
+            <button
+                type="submit"
+                class="auth-button"
+                data-testid="login-submit"
+            >
+                Войти
+            </button>
+
+        </form>
+
+        <div class="auth-divider">
+            <span>Нет аккаунта?</span>
+        </div>
+
+        <a
+            href="{{ url_for('auth.register') }}"
+            class="auth-outline-button"
+        >
+            Зарегистрироваться
+        </a>
+
+        <p class="auth-help">
+            Сотрудники магазина входят через эту же форму.
+        </p>
+
+    </div>
+
+</section>
+
 {% endblock %}
