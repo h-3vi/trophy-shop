@@ -1,17 +1,108 @@
+
 {% extends "base.html" %}
 
 {% block content %}
+
 <div class="pay-wrap">
-  <form class="pay-card" method="post">
-    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-    <span class="muted">Эмулятор платёжного шлюза · тестовый режим</span>
-    <h2>Оплата заказа {{ order.number }}</h2>
-    <div class="pay-amount">{{ order.total|money }}</div>
-    <p class="pay-hint">Тестовая карта: 4242 4242 4242 4242, любой срок и CVC. Реальные деньги не списываются.</p>
-    <div class="pay-actions">
-      <button class="btn btn-accent btn-block" type="submit" name="result" value="success" data-testid="pay-success">Оплатить</button>
-      <button class="btn btn-danger btn-block" type="submit" name="result" value="fail" data-testid="pay-fail">Отклонить платёж</button>
-    </div>
-  </form>
+
+    <form class="pay-card" method="POST">
+
+        <input type="hidden"
+               name="csrf_token"
+               value="{{ csrf_token() }}">
+
+        <span class="muted">
+            ДЕМОНСТРАЦИОННЫЙ РЕЖИМ
+        </span>
+
+        <h2>Оплата заказа {{ order.number }}</h2>
+
+        <div class="pay-amount">
+            {{ order.total|money }}
+        </div>
+
+        <div class="demo-method-info">
+            <div class="demo-method-icon">
+                {% if payment_method == 'sbp' %}
+                    ▦
+                {% else %}
+                    💳
+                {% endif %}
+            </div>
+
+            <div>
+                <strong>{{ payment_method_label }}</strong>
+                <p>Тестовая оплата без списания денег</p>
+            </div>
+        </div>
+
+        <p class="pay-hint">
+            Это эмулятор платёжного сервиса для курсовой работы.
+            Номер карты, CVV и банковские реквизиты вводить не нужно.
+        </p>
+
+        <div class="pay-actions">
+
+            <button class="btn btn-accent btn-block"
+                    type="submit"
+                    name="result"
+                    value="success"
+                    data-testid="pay-success">
+                Успешная оплата
+            </button>
+
+            <button class="btn btn-danger btn-block"
+                    type="submit"
+                    name="result"
+                    value="fail"
+                    data-testid="pay-fail">
+                Отклонить платёж
+            </button>
+
+        </div>
+
+    </form>
+
 </div>
+
+<style>
+.demo-method-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 18px;
+    margin: 22px 0;
+    border-radius: 13px;
+    border: 1px solid #dceadd;
+    background: #f1f8f2;
+    text-align: left;
+}
+
+.demo-method-icon {
+    display: grid;
+    place-items: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    background: white;
+    font-size: 26px;
+    flex-shrink: 0;
+}
+
+.demo-method-info strong {
+    color: #255d2a;
+    font-size: 15px;
+}
+
+.demo-method-info p {
+    font-size: 12px;
+    color: #728072;
+    margin-top: 5px;
+}
+
+.pay-card {
+    max-width: 470px;
+}
+</style>
+
 {% endblock %}

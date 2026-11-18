@@ -6,144 +6,80 @@
 <div class="container checkout-page">
 
     <div class="checkout-heading">
-        <span class="checkout-caption">
-            ТРОФЕЙ / ОФОРМЛЕНИЕ
-        </span>
-
+        <span>ТРОФЕЙ / ОФОРМЛЕНИЕ ЗАКАЗА</span>
         <h1>Оформление заказа</h1>
-
-        <p>
-            Остался последний шаг до покупки!
-            Проверьте товары и заполните данные получателя.
-        </p>
+        <p>Заполните данные и выберите удобный способ оплаты.</p>
     </div>
 
     <div class="checkout-new-layout">
 
-        <!-- ФОРМА ОФОРМЛЕНИЯ -->
+        <form class="checkout-main-card"
+              method="POST"
+              action="{{ url_for('shop.checkout') }}"
+              novalidate>
 
-        <form
-            class="checkout-main-card"
-            method="POST"
-            action="{{ url_for('shop.checkout') }}"
-            novalidate
-        >
+            <input type="hidden"
+                   name="csrf_token"
+                   value="{{ csrf_token() }}">
 
-            <input
-                type="hidden"
-                name="csrf_token"
-                value="{{ csrf_token() }}"
-            >
+            <!-- ДАННЫЕ ПОЛУЧАТЕЛЯ -->
 
             <div class="checkout-section-title">
                 <span class="checkout-step">1</span>
-
                 <div>
                     <h2>Данные получателя</h2>
-                    <p>Укажите контактную информацию</p>
+                    <p>Контактная информация для заказа</p>
                 </div>
             </div>
 
-            {% if current_user.is_authenticated %}
-                {% set saved_name = current_user.full_name or '' %}
-                {% set saved_phone = current_user.phone or '' %}
-                {% set saved_email = current_user.email or '' %}
-            {% else %}
-                {% set saved_name = '' %}
-                {% set saved_phone = '' %}
-                {% set saved_email = '' %}
-            {% endif %}
-
             <div class="checkout-fields">
 
-                <!-- ФИО -->
-
                 <div class="checkout-field">
-
-                    <label for="name">
-                        Фамилия и имя
-                        <span>*</span>
-                    </label>
-
-                    <input
-                        id="name"
-                        type="text"
-                        name="name"
-                        placeholder="Иванов Иван Иванович"
-                        value="{{ form.get('name', saved_name) }}"
-                        autocomplete="name"
-                        maxlength="120"
-                        class="{% if errors.get('name') %}input-error{% endif %}"
-                        data-testid="input-name"
-                        required
-                    >
-
+                    <label for="name">Фамилия и имя *</label>
+                    <input id="name"
+                           name="name"
+                           type="text"
+                           maxlength="120"
+                           placeholder="Иванов Иван"
+                           autocomplete="name"
+                           value="{{ form.get('name', saved_name) }}"
+                           data-testid="input-name"
+                           required>
                     {% if errors.get('name') %}
-                        <small class="checkout-error">
-                            {{ errors.name }}
-                        </small>
+                        <small class="checkout-error">{{ errors.name }}</small>
                     {% endif %}
-
                 </div>
-
-                <!-- ТЕЛЕФОН -->
 
                 <div class="checkout-field">
-
-                    <label for="phone">
-                        Телефон
-                        <span>*</span>
-                    </label>
-
-                    <input
-                        id="phone"
-                        type="tel"
-                        name="phone"
-                        placeholder="+7 (999) 123-45-67"
-                        value="{{ form.get('phone', saved_phone) }}"
-                        autocomplete="tel"
-                        maxlength="32"
-                        class="{% if errors.get('phone') %}input-error{% endif %}"
-                        data-testid="input-phone"
-                        required
-                    >
-
+                    <label for="phone">Телефон *</label>
+                    <input id="phone"
+                           name="phone"
+                           type="tel"
+                           maxlength="32"
+                           placeholder="+7 (999) 123-45-67"
+                           autocomplete="tel"
+                           value="{{ form.get('phone', saved_phone) }}"
+                           data-testid="input-phone"
+                           required>
                     {% if errors.get('phone') %}
-                        <small class="checkout-error">
-                            {{ errors.phone }}
-                        </small>
+                        <small class="checkout-error">{{ errors.phone }}</small>
                     {% endif %}
-
                 </div>
 
-                <!-- ПОЧТА -->
-
-                <div class="checkout-field checkout-wide">
-
-                    <label for="email">
-                        Электронная почта
-                        <span>*</span>
-                    </label>
-
-                    <input
-                        id="email"
-                        type="email"
-                        name="email"
-                        placeholder="example@mail.ru"
-                        value="{{ form.get('email', saved_email) }}"
-                        autocomplete="email"
-                        maxlength="120"
-                        class="{% if errors.get('email') %}input-error{% endif %}"
-                        data-testid="input-email"
-                        required
-                    >
-
+                <div class="checkout-field wide">
+                    <label for="email">Электронная почта *</label>
+                    <input id="email"
+                           name="email"
+                           type="email"
+                           maxlength="120"
+                           placeholder="example@mail.ru"
+                           autocomplete="email"
+                           value="{{ form.get('email', saved_email) }}"
+                           data-testid="input-email"
+                           required>
                     {% if errors.get('email') %}
-                        <small class="checkout-error">
-                            {{ errors.email }}
-                        </small>
+                        <small class="checkout-error">{{ errors.email }}</small>
                     {% endif %}
-
                 </div>
 
             </div>
@@ -154,134 +90,142 @@
 
             <div class="checkout-section-title">
                 <span class="checkout-step">2</span>
-
                 <div>
                     <h2>Доставка</h2>
-                    <p>Куда необходимо доставить заказ?</p>
+                    <p>Укажите адрес получения заказа</p>
                 </div>
             </div>
 
             <div class="checkout-fields">
 
-                <div class="checkout-field checkout-wide">
-
-                    <label for="address">
-                        Адрес доставки
-                        <span>*</span>
-                    </label>
-
-                    <input
-                        id="address"
-                        type="text"
-                        name="address"
-                        placeholder="Город, улица, дом, квартира"
-                        value="{{ form.get('address', '') }}"
-                        autocomplete="street-address"
-                        maxlength="255"
-                        class="{% if errors.get('address') %}input-error{% endif %}"
-                        data-testid="input-address"
-                        required
-                    >
-
+                <div class="checkout-field wide">
+                    <label for="address">Адрес доставки *</label>
+                    <input id="address"
+                           name="address"
+                           type="text"
+                           maxlength="255"
+                           placeholder="Город, улица, дом, квартира"
+                           autocomplete="street-address"
+                           value="{{ form.get('address', '') }}"
+                           data-testid="input-address"
+                           required>
                     {% if errors.get('address') %}
-                        <small class="checkout-error">
-                            {{ errors.address }}
-                        </small>
+                        <small class="checkout-error">{{ errors.address }}</small>
                     {% endif %}
-
                 </div>
 
-                <div class="checkout-field checkout-wide">
-
-                    <label for="comment">
-                        Комментарий к заказу
-                    </label>
-
-                    <textarea
-                        id="comment"
-                        name="comment"
-                        rows="4"
-                        maxlength="500"
-                        placeholder="Пожелания по доставке или дополнительная информация"
-                        data-testid="input-comment"
-                    >{{ form.get('comment', '') }}</textarea>
-
+                <div class="checkout-field wide">
+                    <label for="comment">Комментарий к заказу</label>
+                    <textarea id="comment"
+                              name="comment"
+                              rows="3"
+                              maxlength="500"
+                              placeholder="Ваши пожелания">{{ form.get('comment', '') }}</textarea>
+                    {% if errors.get('comment') %}
+                        <small class="checkout-error">{{ errors.comment }}</small>
+                    {% endif %}
                 </div>
 
             </div>
 
             <div class="checkout-line"></div>
 
-            <!-- ОПЛАТА -->
+            <!-- ВЫБОР ОПЛАТЫ -->
 
             <div class="checkout-section-title">
                 <span class="checkout-step">3</span>
-
                 <div>
-                    <h2>Оплата</h2>
-                    <p>Безопасный переход на страницу оплаты</p>
+                    <h2>Способ оплаты</h2>
+                    <p>Выберите один из доступных вариантов</p>
                 </div>
             </div>
 
-            <div class="checkout-payment-info">
+            {% set selected_method = form.get('payment_method', 'bank_card') %}
 
-                <div class="checkout-payment-icon">💳</div>
+            <div class="payment-methods">
 
-                <div>
-                    <strong>Оплата после оформления</strong>
+                <label class="payment-option">
+                    <input type="radio"
+                           name="payment_method"
+                           value="bank_card"
+                           {% if selected_method == 'bank_card' %}checked{% endif %}>
 
-                    <p>
-                        После подтверждения заказа вы
-                        перейдёте на страницу оплаты.
-                    </p>
-                </div>
+                    <span class="payment-option-icon">💳</span>
+
+                    <span class="payment-option-text">
+                        <strong>Банковская карта</strong>
+                        <small>Оплата через ЮKassa</small>
+                    </span>
+
+                    <span class="payment-option-check">✓</span>
+                </label>
+
+                <label class="payment-option">
+                    <input type="radio"
+                           name="payment_method"
+                           value="sbp"
+                           {% if selected_method == 'sbp' %}checked{% endif %}>
+
+                    <span class="payment-option-icon">▦</span>
+
+                    <span class="payment-option-text">
+                        <strong>Система быстрых платежей</strong>
+                        <small>Оплата через приложение банка</small>
+                    </span>
+
+                    <span class="payment-option-check">✓</span>
+                </label>
 
             </div>
+
+            {% if errors.get('payment_method') %}
+                <small class="checkout-error">
+                    {{ errors.payment_method }}
+                </small>
+            {% endif %}
+
+            <p class="payment-description">
+                В демонстрационном режиме реальные деньги не списываются.
+                При подключении ЮKassa оплата проводится на защищённой странице.
+            </p>
+
+            <div class="checkout-line"></div>
 
             <!-- СОГЛАСИЕ -->
 
             <label class="checkout-agreement">
-
-                <input
-                    type="checkbox"
-                    name="agree"
-                    value="1"
-                    {% if form.get('agree') %}checked{% endif %}
-                    data-testid="input-agree"
-                    required
-                >
+                <input type="checkbox"
+                       name="agree"
+                       value="1"
+                       {% if form.get('agree') %}checked{% endif %}
+                       data-testid="input-agree">
 
                 <span>
-                    Я согласен на обработку персональных данных
-                    для оформления и доставки заказа.
-                    <strong>*</strong>
+                    Согласен на обработку персональных данных
+                    для оформления заказа *
                 </span>
-
             </label>
 
             {% if errors.get('agree') %}
-                <small class="checkout-error" data-testid="error-agree">
+                <small class="checkout-error">
                     {{ errors.agree }}
                 </small>
             {% endif %}
 
-            <button
-                class="checkout-submit"
-                type="submit"
-                data-testid="submit-order"
-            >
-                Подтвердить заказ
+            <button class="checkout-submit"
+                    type="submit"
+                    data-testid="submit-order">
+                Перейти к оплате
                 <span>→</span>
             </button>
 
             <p class="checkout-secure">
-                🔒 Мы не запрашиваем данные банковской карты
-                на сайте магазина.
+                🔒 Данные банковской карты не передаются магазину.
             </p>
 
         </form>
 
-        <!-- ИНФОРМАЦИЯ О ЗАКАЗЕ -->
+        <!-- СОСТАВ ЗАКАЗА -->
 
         <aside class="checkout-order-card">
 
@@ -299,26 +243,21 @@
 
                     <div class="checkout-order-item">
 
-                        <div class="checkout-item-icon">
+                        <span class="checkout-product-icon">
                             {{ item.product.category.icon or '🎣' }}
+                        </span>
+
+                        <div class="checkout-product-info">
+                            <strong>{{ item.product.name }}</strong>
+                            <small>
+                                {{ item.quantity }} шт. ×
+                                {{ item.product.price|money }}
+                            </small>
                         </div>
 
-                        <div class="checkout-item-details">
-
-                            <strong>
-                                {{ item.product.name }}
-                            </strong>
-
-                            <span>
-                                {{ item.quantity }} шт.
-                                × {{ item.product.price|money }}
-                            </span>
-
-                        </div>
-
-                        <div class="checkout-item-price">
+                        <strong class="checkout-product-price">
                             {{ item.subtotal|money }}
-                        </div>
+                        </strong>
 
                     </div>
 
@@ -326,19 +265,14 @@
 
             </div>
 
-            <div class="checkout-order-divider"></div>
+            <div class="checkout-line"></div>
 
             <div class="checkout-summary-row">
                 <span>Количество товаров</span>
                 <strong>{{ count }} шт.</strong>
             </div>
 
-            <div class="checkout-summary-row">
-                <span>Стоимость товаров</span>
-                <strong>{{ total|money }}</strong>
-            </div>
-
-            <div class="checkout-order-divider"></div>
+            <div class="checkout-line"></div>
 
             <div class="checkout-final-total">
                 <span>Итого</span>
@@ -346,12 +280,7 @@
             </div>
 
             <div class="checkout-order-note">
-                <span>🌲</span>
-
-                <p>
-                    Спасибо, что выбираете «Трофей»!
-                    Желаем удачной рыбалки и отличного отдыха.
-                </p>
+                🌲 Спасибо, что выбираете «Трофей»!
             </div>
 
         </aside>
@@ -361,55 +290,43 @@
 </div>
 
 <style>
-
-/* ====================================
-   TROPHY SHOP — ОФОРМЛЕНИЕ ЗАКАЗА
-==================================== */
-
 .checkout-page {
     padding-top: 45px;
     padding-bottom: 80px;
 }
 
 .checkout-heading {
-    margin-bottom: 32px;
+    margin-bottom: 30px;
 }
 
-.checkout-caption {
-    display: block;
+.checkout-heading > span {
     color: #2e7d32;
     font-size: 12px;
     font-weight: 800;
     letter-spacing: 1.5px;
-    margin-bottom: 10px;
 }
 
 .checkout-heading h1 {
     font-size: clamp(28px, 4vw, 38px);
+    margin: 10px 0;
     color: #172017;
-    margin-bottom: 10px;
 }
 
 .checkout-heading p {
-    color: #788278;
+    color: #7b877b;
     font-size: 14px;
 }
 
 .checkout-new-layout {
     display: grid;
-    grid-template-columns:
-        minmax(0, 1.6fr)
-        minmax(300px, 1fr);
-
-    align-items: start;
+    grid-template-columns: minmax(0, 1.6fr) minmax(300px, 1fr);
     gap: 28px;
+    align-items: start;
 }
-
-/* ОСНОВНЫЕ КАРТОЧКИ */
 
 .checkout-main-card,
 .checkout-order-card {
-    background: #ffffff;
+    background: #fff;
     border: 1px solid #e0e8e0;
     border-radius: 18px;
     padding: 30px;
@@ -418,46 +335,38 @@
 
 .checkout-order-card {
     position: sticky;
-    top: 95px;
+    top: 90px;
 }
-
-/* ЗАГОЛОВКИ ЭТАПОВ */
 
 .checkout-section-title {
     display: flex;
     align-items: center;
     gap: 15px;
-    margin-bottom: 25px;
+    margin-bottom: 24px;
+}
+
+.checkout-section-title h2 {
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+.checkout-section-title p {
+    font-size: 13px;
+    color: #869186;
 }
 
 .checkout-step {
     display: grid;
     place-items: center;
-
+    width: 43px;
+    height: 43px;
     flex-shrink: 0;
-    width: 42px;
-    height: 42px;
-
+    border-radius: 12px;
     background: #e8f4e9;
     color: #2e7d32;
-
-    border-radius: 12px;
-    font-size: 17px;
+    font-size: 18px;
     font-weight: 800;
 }
-
-.checkout-section-title h2 {
-    margin: 0 0 5px;
-    font-size: 20px;
-    color: #1b251b;
-}
-
-.checkout-section-title p {
-    color: #899389;
-    font-size: 13px;
-}
-
-/* ПОЛЯ */
 
 .checkout-fields {
     display: grid;
@@ -468,11 +377,11 @@
 .checkout-field {
     display: flex;
     flex-direction: column;
-    gap: 9px;
+    gap: 8px;
     min-width: 0;
 }
 
-.checkout-wide {
+.checkout-field.wide {
     grid-column: 1 / -1;
 }
 
@@ -482,177 +391,185 @@
     color: #344034;
 }
 
-.checkout-field label span {
-    color: #2e7d32;
-}
-
 .checkout-field input,
 .checkout-field textarea {
     width: 100%;
     min-height: 48px;
     padding: 13px 15px;
-
-    background: #f7f9f7;
     border: 1px solid #dce5dc;
     border-radius: 10px;
-
-    font-family: inherit;
+    background: #f7f9f7;
+    color: #172017;
+    font: inherit;
     font-size: 14px;
-    color: #182218;
-
     outline: none;
-    transition: .2s;
 }
 
 .checkout-field textarea {
     resize: vertical;
-    min-height: 100px;
 }
 
 .checkout-field input:focus,
 .checkout-field textarea:focus {
     border-color: #2e7d32;
-    background: #fff;
-    box-shadow: 0 0 0 3px rgba(46,125,50,.11);
-}
-
-.checkout-field input::placeholder,
-.checkout-field textarea::placeholder {
-    color: #98a398;
-}
-
-.checkout-field .input-error {
-    border-color: #ca4941;
-}
-
-.checkout-error {
-    color: #b6332a;
-    font-size: 12px;
+    box-shadow: 0 0 0 3px rgba(46,125,50,.12);
 }
 
 .checkout-line {
     height: 1px;
-    margin: 32px 0;
     background: #e8ede8;
+    margin: 28px 0;
 }
 
-/* ОПЛАТА */
+.checkout-error {
+    display: block;
+    color: #b3261e;
+    font-size: 12px;
+    margin-top: 7px;
+}
 
-.checkout-payment-info {
+/* ВЫБОР СПОСОБА ОПЛАТЫ */
+
+.payment-methods {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.payment-option {
+    position: relative;
     display: flex;
     align-items: center;
-    gap: 16px;
-
-    padding: 20px;
-    margin-bottom: 25px;
-
-    background: #f2f7f2;
-    border: 1px solid #dcebdd;
+    gap: 12px;
+    padding: 18px;
+    border: 2px solid #e0e8e0;
     border-radius: 14px;
+    cursor: pointer;
+    transition: .2s;
+    background: white;
 }
 
-.checkout-payment-icon {
-    display: grid;
-    place-items: center;
+.payment-option:has(input:checked) {
+    border-color: #2e7d32;
+    background: #f2faf3;
+}
 
-    width: 50px;
-    height: 50px;
+.payment-option:hover {
+    border-color: #72af77;
+}
+
+.payment-option input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+}
+
+.payment-option:focus-within {
+    outline: 3px solid rgba(46,125,50,.2);
+    outline-offset: 2px;
+}
+
+.payment-option-icon {
+    font-size: 28px;
     flex-shrink: 0;
-
-    border-radius: 13px;
-    background: #ffffff;
-    font-size: 26px;
 }
 
-.checkout-payment-info strong {
-    color: #263626;
-    font-size: 14px;
+.payment-option-text {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 6px;
 }
 
-.checkout-payment-info p {
-    color: #718071;
+.payment-option-text strong {
+    color: #203020;
+    font-size: 13px;
+}
+
+.payment-option-text small {
+    color: #7a897a;
+    font-size: 11px;
+}
+
+.payment-option-check {
+    color: #2e7d32;
+    opacity: 0;
+    font-weight: 800;
+}
+
+.payment-option:has(input:checked) .payment-option-check {
+    opacity: 1;
+}
+
+.payment-description {
+    color: #798579;
     font-size: 12px;
-    line-height: 1.6;
-    margin-top: 5px;
+    line-height: 1.7;
+    margin-top: 16px;
 }
-
-/* СОГЛАСИЕ */
 
 .checkout-agreement {
     display: flex;
     align-items: flex-start;
     gap: 12px;
-    margin-bottom: 24px;
+    font-size: 13px;
+    color: #6d786d;
+    line-height: 1.6;
     cursor: pointer;
+    margin-bottom: 24px;
 }
 
 .checkout-agreement input {
-    width: 19px;
-    height: 19px;
+    width: 18px;
+    height: 18px;
     flex-shrink: 0;
-    margin-top: 2px;
     accent-color: #2e7d32;
 }
-
-.checkout-agreement span {
-    color: #697569;
-    font-size: 13px;
-    line-height: 1.6;
-}
-
-.checkout-agreement strong {
-    color: #2e7d32;
-}
-
-/* КНОПКА */
 
 .checkout-submit {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     width: 100%;
-    min-height: 54px;
-    padding: 15px 20px;
-
-    color: white;
+    padding: 17px 20px;
     background: #2e7d32;
-
-    border: none;
+    color: white;
+    border: 0;
     border-radius: 11px;
-
-    font-family: inherit;
-    font-size: 15px;
+    font: inherit;
     font-weight: 750;
     cursor: pointer;
-    transition: .2s;
 }
 
 .checkout-submit:hover {
     background: #1b5e20;
-    transform: translateY(-2px);
 }
 
 .checkout-secure {
     text-align: center;
-    margin-top: 18px;
     font-size: 12px;
-    color: #8b968b;
+    color: #849084;
+    margin-top: 18px;
 }
 
-/* КОРЗИНА СПРАВА */
+/* СОСТАВ ЗАКАЗА */
 
-.checkout-order-header {
+.checkout-order-header,
+.checkout-summary-row,
+.checkout-final-total {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 15px;
+    gap: 12px;
+}
+
+.checkout-order-header {
     margin-bottom: 25px;
 }
 
 .checkout-order-header h2 {
     font-size: 21px;
-    margin: 0;
 }
 
 .checkout-order-header a {
@@ -673,106 +590,68 @@
     gap: 12px;
 }
 
-.checkout-item-icon {
-    width: 54px;
-    height: 54px;
-    flex-shrink: 0;
-
+.checkout-product-icon {
     display: grid;
     place-items: center;
-
-    background: #f0f5f0;
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
     border-radius: 12px;
-    font-size: 25px;
+    background: #f0f5f0;
+    font-size: 23px;
 }
 
-.checkout-item-details {
-    flex: 1;
-    min-width: 0;
+.checkout-product-info {
     display: flex;
+    flex: 1;
     flex-direction: column;
-    gap: 5px;
+    gap: 6px;
+    min-width: 0;
 }
 
-.checkout-item-details strong {
-    color: #202a20;
+.checkout-product-info strong,
+.checkout-product-price {
     font-size: 13px;
-    line-height: 1.4;
 }
 
-.checkout-item-details span {
-    color: #899389;
+.checkout-product-info small {
+    color: #879187;
     font-size: 12px;
 }
 
-.checkout-item-price {
-    font-size: 13px;
-    font-weight: 750;
+.checkout-product-price {
     white-space: nowrap;
-    color: #202a20;
-}
-
-.checkout-order-divider {
-    height: 1px;
-    background: #e8ede8;
-    margin: 24px 0;
-}
-
-.checkout-summary-row,
-.checkout-final-total {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
 }
 
 .checkout-summary-row {
-    margin-bottom: 15px;
-    color: #768176;
+    color: #738073;
     font-size: 13px;
 }
 
 .checkout-summary-row strong {
-    color: #263126;
+    color: #283428;
 }
 
-.checkout-final-total span {
-    color: #202a20;
-    font-weight: 750;
-    font-size: 18px;
+.checkout-final-total {
+    font-size: 19px;
 }
 
 .checkout-final-total strong {
-    color: #2e7d32;
     font-size: 25px;
-    white-space: nowrap;
+    color: #2e7d32;
 }
 
 .checkout-order-note {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-
-    margin-top: 28px;
-    padding: 16px;
-
-    background: #f0f7f0;
-    border-radius: 12px;
-}
-
-.checkout-order-note span {
-    font-size: 25px;
-}
-
-.checkout-order-note p {
-    color: #647364;
+    margin-top: 25px;
+    padding: 17px;
+    border-radius: 11px;
+    background: #eef6ef;
+    color: #456545;
     font-size: 12px;
     line-height: 1.6;
 }
 
-/* АДАПТАЦИЯ */
-
-@media (max-width: 950px) {
+@media (max-width: 1050px) {
     .checkout-new-layout {
         grid-template-columns: 1fr;
     }
@@ -782,38 +661,26 @@
     }
 }
 
-@media (max-width: 600px) {
-    .checkout-page {
-        padding-top: 25px;
-        padding-bottom: 40px;
-    }
-
+@media (max-width: 650px) {
     .checkout-main-card,
     .checkout-order-card {
         padding: 20px;
     }
 
-    .checkout-fields {
+    .checkout-fields,
+    .payment-methods {
         grid-template-columns: 1fr;
     }
 
-    .checkout-wide {
+    .checkout-field.wide {
         grid-column: auto;
     }
 
-    .checkout-heading h1 {
-        font-size: 28px;
-    }
-
-    .checkout-section-title h2 {
-        font-size: 18px;
-    }
-
-    .checkout-item-price {
-        font-size: 12px;
+    .checkout-page {
+        padding-top: 25px;
+        padding-bottom: 40px;
     }
 }
-
 </style>
 
 {% endblock %}
