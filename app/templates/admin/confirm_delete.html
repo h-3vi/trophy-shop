@@ -1,0 +1,49 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="admin-page">
+    <div class="container">
+
+        <div class="admin-confirm-card">
+            <div class="admin-confirm-icon">🗑️</div>
+
+            <h1>Удаление товара</h1>
+
+            <p>
+                Вы действительно хотите удалить товар
+                <strong>«{{ product.name }}»</strong>?
+            </p>
+
+            <p class="admin-warning">
+                Это действие нельзя отменить.
+                Информация о товаре в старых заказах сохранится.
+            </p>
+
+            <form method="POST"
+                  action="{{ url_for('admin.product_delete', product_id=product.id) }}">
+
+                <input type="hidden"
+                       name="csrf_token"
+                       value="{{ csrf_token() }}">
+
+                <div class="admin-form-actions">
+                    <button type="submit"
+                            class="btn btn-danger">
+                        Да, удалить
+                    </button>
+
+                    <a class="admin-back"
+                       href="{{ url_for('admin.products') }}">
+                        Отмена
+                    </a>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

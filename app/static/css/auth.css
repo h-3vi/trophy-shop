@@ -1,0 +1,392 @@
+
+/* =========================================
+   TROPHY SHOP
+   Авторизация и регистрация
+========================================= */
+
+.auth-page {
+    min-height: 75vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 65px 20px;
+
+    background:
+        radial-gradient(
+            circle at 15% 20%,
+            rgba(46, 125, 50, 0.09),
+            transparent 38%
+        ),
+        #f6f7f6;
+}
+
+/* КАРТОЧКА */
+
+.auth-card {
+    width: 100%;
+    max-width: 440px;
+    padding: 38px;
+
+    background: #ffffff;
+
+    border: 1px solid #e3e9e3;
+    border-radius: 20px;
+
+    box-shadow:
+        0 15px 50px rgba(20, 50, 25, 0.08);
+}
+
+.auth-card-wide {
+    max-width: 500px;
+}
+
+/* ИКОНКА */
+
+.auth-icon {
+    width: 65px;
+    height: 65px;
+
+    margin: 0 auto 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #eaf4eb;
+
+    border-radius: 18px;
+    font-size: 30px;
+}
+
+/* ЗАГОЛОВОК */
+
+.auth-heading {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.auth-heading h1 {
+    margin-bottom: 10px;
+
+    color: #171d17;
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.auth-heading p {
+    color: #748074;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* ФОРМА */
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.auth-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.auth-field label {
+    color: #303b30;
+
+    font-size: 14px;
+    font-weight: 650;
+}
+
+.auth-field input {
+    width: 100%;
+    height: 48px;
+
+    padding: 0 15px;
+
+    border: 1px solid #dce5dc;
+    border-radius: 10px;
+
+    background: #f8faf8;
+    color: #172017;
+
+    font-family: inherit;
+    font-size: 15px;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+}
+
+.auth-field input:focus {
+    background: #fff;
+    border-color: #2e7d32;
+
+    box-shadow:
+        0 0 0 3px rgba(46, 125, 50, 0.12);
+}
+
+.auth-field input::placeholder {
+    color: #a0aaa0;
+}
+
+.auth-field-error {
+    color: #b3261e;
+    font-size: 12px;
+}
+
+.auth-hint {
+    color: #859085;
+    font-size: 12px;
+}
+
+/* КНОПКИ */
+
+.auth-button {
+    width: 100%;
+    min-height: 49px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 4px;
+    padding: 12px 18px;
+
+    border: 0;
+    border-radius: 10px;
+
+    background: #2e7d32;
+    color: #fff;
+
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 750;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s,
+        transform 0.2s;
+}
+
+.auth-button:hover {
+    background: #1b5e20;
+    transform: translateY(-2px);
+}
+
+.auth-outline-button {
+    width: 100%;
+    min-height: 49px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 12px 18px;
+
+    border: 1px solid #2e7d32;
+    border-radius: 10px;
+
+    background: #ffffff;
+    color: #2e7d32;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    text-decoration: none;
+
+    transition:
+        background 0.2s,
+        color 0.2s;
+}
+
+.auth-outline-button:hover {
+    background: #edf6ee;
+}
+
+/* РАЗДЕЛИТЕЛЬ */
+
+.auth-divider {
+    position: relative;
+    margin: 25px 0;
+
+    text-align: center;
+}
+
+.auth-divider::before {
+    content: "";
+
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+
+    height: 1px;
+    background: #e5ebe5;
+}
+
+.auth-divider span {
+    position: relative;
+    z-index: 1;
+
+    padding: 0 12px;
+
+    background: #fff;
+    color: #859085;
+
+    font-size: 13px;
+}
+
+/* ОШИБКИ */
+
+.auth-error {
+    margin-bottom: 20px;
+    padding: 13px 15px;
+
+    border: 1px solid #f0c5c0;
+    border-radius: 10px;
+
+    background: #fff0ef;
+    color: #a52d22;
+
+    font-size: 13px;
+}
+
+/* ПОДСКАЗКА */
+
+.auth-help {
+    margin-top: 20px;
+
+    color: #8b958b;
+    font-size: 12px;
+
+    text-align: center;
+    line-height: 1.5;
+}
+
+/* АВТОРИЗАЦИЯ В ШАПКЕ */
+
+.header-auth {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header-login,
+.header-register,
+.header-logout {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 38px;
+    padding: 9px 14px;
+
+    border-radius: 10px;
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.header-login {
+    color: #2e7d32;
+    background: #edf6ee;
+}
+
+.header-register {
+    color: #ffffff;
+    background: #2e7d32;
+}
+
+.header-register:hover {
+    background: #1b5e20;
+}
+
+.header-logout {
+    border: 0;
+    color: #2e7d32;
+    background: #edf6ee;
+    cursor: pointer;
+}
+
+.header-logout:hover,
+.header-login:hover {
+    background: #dcebdd;
+}
+
+.header-user {
+    max-width: 140px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    color: #2e7d32;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.header-logout-form {
+    margin: 0;
+}
+
+/* МОБИЛЬНАЯ ВЕРСИЯ */
+
+@media (max-width: 850px) {
+    .header-user {
+        display: none;
+    }
+
+    .header-auth {
+        gap: 5px;
+    }
+
+    .header-login,
+    .header-register,
+    .header-logout {
+        padding: 8px 10px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 520px) {
+    .auth-page {
+        padding: 30px 14px;
+    }
+
+    .auth-card {
+        padding: 28px 20px;
+        border-radius: 15px;
+    }
+
+    .auth-heading h1 {
+        font-size: 24px;
+    }
+
+    .auth-form {
+        gap: 16px;
+    }
+
+    .header-register {
+        display: none;
+    }
+
+    .header-auth {
+        gap: 4px;
+    }
+
+    .header-login,
+    .header-logout {
+        padding: 7px 8px;
+        font-size: 11px;
+    }
+}

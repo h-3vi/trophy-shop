@@ -1,0 +1,191 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="auth-page">
+
+    <div class="auth-card auth-card-wide">
+
+        <div class="auth-icon">🌲</div>
+
+        <div class="auth-heading">
+            <h1>Создать аккаунт</h1>
+            <p>Зарегистрируйтесь в интернет-магазине «Трофей»</p>
+        </div>
+
+        {% if errors.get('general') %}
+        <div class="auth-error">
+            {{ errors.general }}
+        </div>
+        {% endif %}
+
+        <form method="POST" class="auth-form">
+
+            <input
+                type="hidden"
+                name="csrf_token"
+                value="{{ csrf_token() }}"
+            >
+
+            <!-- ФИО -->
+            <div class="auth-field">
+
+                <label for="full_name">
+                    Фамилия и имя
+                </label>
+
+                <input
+                    id="full_name"
+                    type="text"
+                    name="full_name"
+                    placeholder="Иванов Иван Иванович"
+                    value="{{ values.full_name }}"
+                    maxlength="120"
+                    autocomplete="name"
+                    data-testid="register-name"
+                    required
+                >
+
+                {% if errors.get('full_name') %}
+                <span class="auth-field-error">
+                    {{ errors.full_name }}
+                </span>
+                {% endif %}
+
+            </div>
+
+            <!-- ПОЧТА -->
+            <div class="auth-field">
+
+                <label for="email">
+                    Электронная почта
+                </label>
+
+                <input
+                    id="email"
+                    type="email"
+                    name="email"
+                    placeholder="example@mail.ru"
+                    value="{{ values.email }}"
+                    maxlength="120"
+                    autocomplete="email"
+                    data-testid="register-email"
+                    required
+                >
+
+                {% if errors.get('email') %}
+                <span class="auth-field-error">
+                    {{ errors.email }}
+                </span>
+                {% endif %}
+
+            </div>
+
+            <!-- ТЕЛЕФОН -->
+            <div class="auth-field">
+
+                <label for="phone">
+                    Номер телефона
+                </label>
+
+                <input
+                    id="phone"
+                    type="tel"
+                    name="phone"
+                    placeholder="+7 (999) 123-45-67"
+                    value="{{ values.phone }}"
+                    autocomplete="tel"
+                    data-testid="register-phone"
+                    required
+                >
+
+                {% if errors.get('phone') %}
+                <span class="auth-field-error">
+                    {{ errors.phone }}
+                </span>
+                {% endif %}
+
+            </div>
+
+            <!-- ПАРОЛЬ -->
+            <div class="auth-field">
+
+                <label for="password">
+                    Придумайте пароль
+                </label>
+
+                <input
+                    id="password"
+                    type="password"
+                    name="password"
+                    placeholder="Минимум 8 символов"
+                    minlength="8"
+                    autocomplete="new-password"
+                    data-testid="register-password"
+                    required
+                >
+
+                {% if errors.get('password') %}
+                <span class="auth-field-error">
+                    {{ errors.password }}
+                </span>
+                {% endif %}
+
+                <span class="auth-hint">
+                    Минимум 8 символов, хотя бы одна буква и цифра.
+                </span>
+
+            </div>
+
+            <!-- ПОДТВЕРЖДЕНИЕ -->
+            <div class="auth-field">
+
+                <label for="password_confirm">
+                    Повторите пароль
+                </label>
+
+                <input
+                    id="password_confirm"
+                    type="password"
+                    name="password_confirm"
+                    placeholder="Повторите пароль"
+                    autocomplete="new-password"
+                    data-testid="register-confirm"
+                    required
+                >
+
+                {% if errors.get('password_confirm') %}
+                <span class="auth-field-error">
+                    {{ errors.password_confirm }}
+                </span>
+                {% endif %}
+
+            </div>
+
+            <button
+                type="submit"
+                class="auth-button"
+                data-testid="register-submit"
+            >
+                Создать аккаунт
+            </button>
+
+        </form>
+
+        <div class="auth-divider">
+            <span>Уже есть аккаунт?</span>
+        </div>
+
+        <a
+            href="{{ url_for('auth.login') }}"
+            class="auth-outline-button"
+        >
+            Войти в аккаунт
+        </a>
+
+    </div>
+
+</section>
+
+{% endblock %}
