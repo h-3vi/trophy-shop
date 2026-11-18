@@ -1,10 +1,156 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="admin-page">
+
+    <div class="container">
+
+        <div class="admin-header">
+
+            <div>
+                <span class="admin-label">
+                    ПАНЕЛЬ УПРАВЛЕНИЯ
+                </span>
+
+                <h1>Администрирование магазина</h1>
+
+                <p>
+                    Добро пожаловать в панель управления
+                    интернет-магазином «Трофей».
+                </p>
+            </div>
+
+            <a href="{{ url_for('shop.index') }}"
+               class="admin-back">
+                ← Вернуться в магазин
+            </a>
+
+        </div>
+
+        <!-- СТАТИСТИКА -->
+
+        <div class="admin-stats">
+
+            <div class="admin-stat-card">
+                <div class="admin-stat-icon">📦</div>
+                <span>Всего товаров</span>
+                <strong>{{ stats.products | default(0) }}</strong>
+            </div>
+
+            <div class="admin-stat-card">
+                <div class="admin-stat-icon">🛒</div>
+                <span>Всего заказов</span>
+                <strong>{{ stats.orders | default(0) }}</strong>
+            </div>
+
+            <div class="admin-stat-card">
+                <div class="admin-stat-icon">📂</div>
+                <span>Категории</span>
+                <strong>{{ stats.categories | default(0) }}</strong>
+            </div>
+
+            <div class="admin-stat-card">
+                <div class="admin-stat-icon">💰</div>
+                <span>Выручка</span>
+                <strong>{{ stats.revenue | default(0) | money }}</strong>
+            </div>
+
+        </div>
+
+        <!-- УПРАВЛЕНИЕ -->
+
+        <div class="admin-section-title">
+            <h2>Управление магазином</h2>
+            <p>Выберите раздел для работы</p>
+        </div>
+
+        <div class="admin-actions">
+
+            <a href="{{ url_for('admin.products') }}"
+               class="admin-action-card">
+                <div class="admin-action-icon">📦</div>
+                <h3>Товары</h3>
+                <p>
+                    Добавление, редактирование и
+                    управление ассортиментом.
+                </p>
+                <span>Перейти →</span>
+            </a>
+
+            <a href="{{ url_for('admin.categories') }}"
+               class="admin-action-card">
+                <div class="admin-action-icon">📂</div>
+                <h3>Категории</h3>
+                <p>
+                    Создание и изменение категорий
+                    интернет-магазина.
+                </p>
+                <span>Перейти →</span>
+            </a>
+
+            <a href="{{ url_for('admin.orders') }}"
+               class="admin-action-card">
+                <div class="admin-action-icon">🛍️</div>
+                <h3>Заказы</h3>
+                <p>
+                    Просмотр заказов покупателей
+                    и управление их статусами.
+                </p>
+                <span>Перейти →</span>
+            </a>
+
+        </div>
+
+        <!-- ПОСЛЕДНИЕ ЗАКАЗЫ -->
+
+        <div class="admin-section-title">
+            <h2>Последние заказы</h2>
+        </div>
+
+        <div class="admin-table-wrapper">
+
+            <table class="admin-table">
+
+                <thead>
+                    <tr>
+                        <th>Номер заказа</th>
+                        <th>Покупатель</th>
+                        <th>Сумма</th>
+                        <th>Статус</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for order in latest %}
+
+                    <tr>
+                        <td>{{ order.number }}</td>
+                        <td>{{ order.customer_name }}</td>
+                        <td>{{ order.total | money }}</td>
+                        <td>{{ order.status_label }}</td>
+                    </tr>
+
+                    {% else %}
+
+                    <tr>
+                        <td colspan="4" class="admin-empty">
+                            Заказов пока нет.
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

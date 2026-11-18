@@ -1,0 +1,134 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="admin-page">
+    <div class="container">
+
+        <div class="admin-header">
+            <div>
+                <span class="admin-label">ИНФОРМАЦИЯ О ЗАКАЗЕ</span>
+                <h1>Заказ {{ order.number }}</h1>
+                <p>Создан: {{ order.created_at|dt }}</p>
+            </div>
+
+            <a class="admin-back"
+               href="{{ url_for('admin.orders') }}">
+                ← Ко всем заказам
+            </a>
+        </div>
+
+        <div class="admin-order-layout">
+
+            <div class="admin-edit-form">
+
+                <h2>Состав заказа</h2>
+
+                <div class="admin-table-wrapper">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Товар</th>
+                                <th>Количество</th>
+                                <th>Цена</th>
+                                <th>Сумма</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for item in order.items %}
+                            <tr>
+                                <td>{{ item.title }}</td>
+                                <td>{{ item.quantity }}</td>
+                                <td>{{ item.price|money }}</td>
+                                <td>
+                                    <strong>{{ item.subtotal|money }}</strong>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="admin-order-total">
+                    <span>Итого к оплате</span>
+                    <strong>{{ order.total|money }}</strong>
+                </div>
+
+                <h2>Данные покупателя</h2>
+
+                <div class="admin-customer-info">
+                    <p><strong>ФИО:</strong> {{ order.customer_name }}</p>
+                    <p><strong>Телефон:</strong> {{ order.phone }}</p>
+                    <p><strong>Почта:</strong> {{ order.email }}</p>
+                    <p><strong>Адрес:</strong> {{ order.address }}</p>
+
+                    {% if order.comment %}
+                        <p><strong>Комментарий:</strong> {{ order.comment }}</p>
+                    {% endif %}
+                </div>
+
+            </div>
+
+            <aside class="admin-edit-form">
+                <h2>Управление заказом</h2>
+
+                <p>
+                    Текущий статус:
+                    <strong>{{ order.status_label }}</strong>
+                </p>
+
+                <form method="POST"
+                      action="{{ url_for('admin.order_status', order_id=order.id) }}">
+
+                    <input type="hidden"
+                           name="csrf_token"
+                           value="{{ csrf_token() }}">
+
+                    <div class="admin-form-field">
+                        <label for="status">Новый статус</label>
+
+                        <select name="status" id="status">
+
+                            {% for key, label in order_statuses.items() %}
+                                <option value="{{ key }}"
+                                    {% if order.status == key %}selected{% endif %}>
+                                    {{ label }}
+                                </option>
+                            {% endfor %}
+
+                        </select>
+                    </div>
+
+                    <button class="btn btn-accent" type="submit">
+                        Сохранить статус
+                    </button>
+
+                </form>
+
+                <div class="admin-payment-info">
+                    <h3>Информация об оплате</h3>
+                    <p>
+                        Провайдер:
+                        {{ order.payment_provider or 'Не указан' }}
+                    </p>
+                    <p>
+                        ID платежа:
+                        {{ order.payment_id or 'Не создан' }}
+                    </p>
+                </div>
+
+                <p class="admin-warning">
+                    Перед переводом заказа в статус «Оплачен»
+                    убедитесь, что платёж действительно получен.
+                </p>
+
+            </aside>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

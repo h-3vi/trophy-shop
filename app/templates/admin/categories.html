@@ -1,0 +1,143 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="admin-page">
+    <div class="container">
+
+        <div class="admin-header">
+            <div>
+                <span class="admin-label">УПРАВЛЕНИЕ МАГАЗИНОМ</span>
+                <h1>Категории товаров</h1>
+                <p>Создавайте и редактируйте разделы магазина.</p>
+            </div>
+
+            <a class="admin-back"
+               href="{{ url_for('admin.dashboard') }}">
+                ← В админку
+            </a>
+        </div>
+
+        <div class="admin-edit-form">
+            <h2>Добавить категорию</h2>
+
+            <form method="POST"
+                  action="{{ url_for('admin.categories') }}">
+
+                <input type="hidden"
+                       name="csrf_token"
+                       value="{{ csrf_token() }}">
+
+                <div class="admin-form-grid">
+
+                    <div class="admin-form-field">
+                        <label>Название категории *</label>
+                        <input type="text"
+                               name="name"
+                               minlength="3"
+                               maxlength="80"
+                               placeholder="Например: Рыбалка"
+                               required>
+                    </div>
+
+                    <div class="admin-form-field">
+                        <label>Иконка</label>
+                        <input type="text"
+                               name="icon"
+                               value="🎣"
+                               maxlength="8">
+                    </div>
+
+                    <div class="admin-form-field wide">
+                        <label>Описание</label>
+                        <textarea name="description"
+                                  rows="3"></textarea>
+                    </div>
+
+                </div>
+
+                <button type="submit" class="btn btn-accent">
+                    + Добавить категорию
+                </button>
+            </form>
+        </div>
+
+        <div class="admin-section-title">
+            <h2>Существующие категории</h2>
+        </div>
+
+        <div class="admin-categories-grid">
+
+            {% for category in categories %}
+
+                <div class="admin-category-card">
+
+                    <form method="POST"
+                          action="{{ url_for('admin.category_edit', category_id=category.id) }}">
+
+                        <input type="hidden"
+                               name="csrf_token"
+                               value="{{ csrf_token() }}">
+
+                        <div class="admin-form-field">
+                            <label>Название</label>
+                            <input type="text"
+                                   name="name"
+                                   value="{{ category.name }}"
+                                   minlength="3"
+                                   required>
+                        </div>
+
+                        <div class="admin-form-field">
+                            <label>Иконка</label>
+                            <input type="text"
+                                   name="icon"
+                                   maxlength="8"
+                                   value="{{ category.icon or '🎣' }}">
+                        </div>
+
+                        <div class="admin-form-field">
+                            <label>Описание</label>
+                            <textarea name="description"
+                                      rows="3">{{ category.description or '' }}</textarea>
+                        </div>
+
+                        <p class="admin-slug">
+                            Адрес: {{ category.slug }}
+                        </p>
+
+                        <button class="btn btn-accent"
+                                type="submit">
+                            Сохранить изменения
+                        </button>
+
+                    </form>
+
+                    <form method="POST"
+                          action="{{ url_for('admin.category_delete', category_id=category.id) }}"
+                          onsubmit="return confirm('Удалить эту категорию?');">
+
+                        <input type="hidden"
+                               name="csrf_token"
+                               value="{{ csrf_token() }}">
+
+                        <button class="admin-remove-button"
+                                type="submit">
+                            Удалить категорию
+                        </button>
+
+                    </form>
+
+                </div>
+
+            {% else %}
+                <p>Категории ещё не добавлены.</p>
+            {% endfor %}
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}
