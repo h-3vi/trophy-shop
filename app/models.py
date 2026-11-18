@@ -24,6 +24,7 @@ class Category(db.Model):
     slug = db.Column(db.String(80), unique=True, nullable=False, index=True)
     icon = db.Column(db.String(8), default="🎣")
     description = db.Column(db.String(255), default="")
+    image = db.Column(db.String(255), default="")
 
     products = db.relationship("Product", back_populates="category")
 
@@ -67,7 +68,6 @@ class Product(db.Model):
 @event.listens_for(Product, "before_insert")
 @event.listens_for(Product, "before_update")
 def _build_search_index(mapper, connection, target):
-    """Поисковый индекс в нижнем регистре: SQLite не умеет LOWER() для кириллицы."""
     parts = [target.name or "", target.brand or "", target.description or ""]
     target.search_index = " ".join(parts).lower()
 
@@ -123,7 +123,6 @@ class Order(db.Model):
 
 
 class OrderItem(db.Model):
-    """Позиция заказа: название и цена фиксируются на момент покупки."""
     __tablename__ = "order_items"
 
     id = db.Column(db.Integer, primary_key=True)
