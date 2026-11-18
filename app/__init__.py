@@ -17,12 +17,12 @@ def create_app(config_class=Config):
     app.json.ensure_ascii = False
 
     (BASE_DIR / "logs").mkdir(exist_ok=True)
-    uploads_dir = app.confi
-    db.init_app(app)
-    login_manager.init_app(app)
-    csrf.init_app(app)g["UPLOAD_FOLDER"]
+    uploads_dir = app.config["UPLOAD_FOLDER"]
     (BASE_DIR / uploads_dir).mkdir(parents=True, exist_ok=True)
 
+    db.init_app(app)
+    login_manager.init_app(app)
+    csrf.init_app(app)
 
     app.register_blueprint(shop_bp)
     app.register_blueprint(auth_bp)
