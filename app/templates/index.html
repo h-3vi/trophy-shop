@@ -4,192 +4,536 @@
 
 {% block content %}
 
+<style>
+    /* Фотографии популярных категорий */
+
+    .categories-section .cat-grid {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 16px;
+    }
+
+    .categories-section .cat-tile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        overflow: hidden;
+        padding: 10px 10px 22px;
+        text-decoration: none;
+        transition:
+            transform 0.3s ease,
+            box-shadow 0.3s ease,
+            border-color 0.3s ease;
+    }
+
+    .categories-section .cat-tile:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.09);
+        border-color: #83b88a;
+    }
+
+    .categories-section .category-photo {
+        width: 100%;
+        height: 165px;
+        overflow: hidden;
+        border-radius: 10px;
+        background: #edf2ed;
+        margin-bottom: 16px;
+    }
+
+    .categories-section .category-photo img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        transition: transform 0.4s ease;
+    }
+
+    .categories-section .cat-tile:hover .category-photo img {
+        transform: scale(1.08);
+    }
+
+    .categories-section .cat-name {
+        display: block;
+        text-align: center;
+        font-size: 16px;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+
+    .categories-section .category-arrow {
+        display: block;
+        margin-top: auto;
+        color: #247d2d;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    @media (max-width: 1100px) {
+        .categories-section .cat-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+    }
+
+    @media (max-width: 700px) {
+        .categories-section .cat-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .categories-section .category-photo {
+            height: 145px;
+        }
+    }
+
+    @media (max-width: 420px) {
+        .categories-section .cat-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .categories-section .category-photo {
+            height: 190px;
+        }
+    }
+</style>
+
+<!-- Главный слайдер -->
+
 <section class="hero" data-testid="hero-slider">
+
     <div class="slides" id="slides">
 
         <!-- Рыбалка -->
-        <div class="slide is-active" data-testid="slide"
-             style="background-image: url('{{ url_for('static', filename='img/slides/slide-1.png') }}')">
+
+        <div
+            class="slide is-active"
+            data-testid="slide"
+            style="background-image: url('{{ url_for('static', filename='img/slides/slide-1.png') }}')"
+        >
             <div class="container slide-content">
-                <span class="slide-tag">Для любителей рыбалки</span>
-                <h1>Твой лучший улов начинается здесь</h1>
-                <p>Спиннинги, катушки, приманки и проверенное снаряжение для рыбалки.</p>
-                <a class="btn btn-accent hero-link"
-                   href="{{ url_for('shop.catalog', category='rybalka') }}">
+
+                <span class="slide-tag">
+                    Для любителей рыбалки
+                </span>
+
+                <h1>
+                    Твой лучший улов начинается здесь
+                </h1>
+
+                <p>
+                    Спиннинги, катушки, приманки и
+                    проверенное снаряжение для рыбалки.
+                </p>
+
+                <a
+                    class="btn btn-accent hero-link"
+                    href="{{ url_for('shop.catalog', category='rybalka') }}"
+                >
                     Товары для рыбалки →
                 </a>
+
             </div>
         </div>
 
         <!-- Охота -->
-        <div class="slide" data-testid="slide"
-             style="background-image: url('{{ url_for('static', filename='img/slides/slide-2.png') }}')">
+
+        <div
+            class="slide"
+            data-testid="slide"
+            style="background-image: url('{{ url_for('static', filename='img/slides/slide-2.png') }}')"
+        >
             <div class="container slide-content">
-                <span class="slide-tag">Снаряжение для охоты</span>
-                <h1>Готов к любому сезону</h1>
-                <p>Экипировка и аксессуары для комфортного пребывания на природе.</p>
-                <a class="btn btn-accent hero-link"
-                   href="{{ url_for('shop.catalog', category='ohota') }}">
+
+                <span class="slide-tag">
+                    Снаряжение для охоты
+                </span>
+
+                <h1>
+                    Готов к любому сезону
+                </h1>
+
+                <p>
+                    Экипировка и аксессуары для
+                    комфортного пребывания на природе.
+                </p>
+
+                <a
+                    class="btn btn-accent hero-link"
+                    href="{{ url_for('shop.catalog', category='ohota') }}"
+                >
                     Смотреть снаряжение →
                 </a>
+
             </div>
         </div>
 
         <!-- Туризм -->
-        <div class="slide" data-testid="slide"
-             style="background-image: url('{{ url_for('static', filename='img/slides/slide-3.png') }}')">
+
+        <div
+            class="slide"
+            data-testid="slide"
+            style="background-image: url('{{ url_for('static', filename='img/slides/slide-3.png') }}')"
+        >
             <div class="container slide-content">
-                <span class="slide-tag">Для новых приключений</span>
-                <h1>Открой для себя новые маршруты</h1>
-                <p>Палатки, термосы и туристическое оборудование для отдыха на природе.</p>
-                <a class="btn btn-accent hero-link"
-                   href="{{ url_for('shop.catalog', category='turizm') }}">
+
+                <span class="slide-tag">
+                    Для новых приключений
+                </span>
+
+                <h1>
+                    Открой для себя новые маршруты
+                </h1>
+
+                <p>
+                    Палатки, термосы и туристическое
+                    оборудование для отдыха на природе.
+                </p>
+
+                <a
+                    class="btn btn-accent hero-link"
+                    href="{{ url_for('shop.catalog', category='turizm') }}"
+                >
                     Всё для туризма →
                 </a>
+
             </div>
         </div>
 
     </div>
 
-    <button class="slider-btn prev" type="button"
-            data-testid="slider-prev"
-            aria-label="Предыдущий слайд">&#8249;</button>
+    <button
+        class="slider-btn prev"
+        type="button"
+        data-testid="slider-prev"
+        aria-label="Предыдущий слайд"
+    >
+        &#8249;
+    </button>
 
-    <button class="slider-btn next" type="button"
-            data-testid="slider-next"
-            aria-label="Следующий слайд">&#8250;</button>
+    <button
+        class="slider-btn next"
+        type="button"
+        data-testid="slider-next"
+        aria-label="Следующий слайд"
+    >
+        &#8250;
+    </button>
 
     <div class="slider-dots" id="slider-dots"></div>
+
 </section>
 
-<!-- Категории -->
+
+<!-- Популярные категории -->
+
 <section class="section categories-section">
+
     <div class="container">
+
         <div class="section-head">
+
             <div>
-                <span class="section-kicker">ВЫБИРАЙ СВОЁ</span>
+                <span class="section-kicker">
+                    ВЫБИРАЙ СВОЁ
+                </span>
+
                 <h2>Популярные категории</h2>
             </div>
-            <a class="link-all" href="{{ url_for('shop.catalog') }}">
+
+            <a
+                class="link-all"
+                href="{{ url_for('shop.catalog') }}"
+            >
                 Весь каталог →
             </a>
+
         </div>
+
+        {% set category_photos = {
+            'nozhi': 'https://commons.wikimedia.org/wiki/Special:FilePath/Pocket_knives.jpg',
+            'odezhda-i-obuv': 'https://commons.wikimedia.org/wiki/Special:FilePath/Climbing_Boots.jpg',
+            'ohota': 'https://commons.wikimedia.org/wiki/Special:FilePath/Binoculars_in_action.jpg',
+            'rybalka': 'https://commons.wikimedia.org/wiki/Special:FilePath/Fishing_Rods_-_50134725316.jpg',
+            'turizm': 'https://commons.wikimedia.org/wiki/Special:FilePath/White_and_yellow_camping_tent_in_the_middle_of_forest.jpg'
+        } %}
 
         <div class="cat-grid">
+
             {% for category in nav_categories %}
-                <a class="cat-tile" data-reveal
-                   href="{{ url_for('shop.catalog', category=category.slug) }}">
-                    <span class="cat-icon">{{ category.icon or '🏕️' }}</span>
-                    <span class="cat-name">{{ category.name }}</span>
-                    <span class="category-arrow">Перейти →</span>
+
+                <a
+                    class="cat-tile"
+                    data-reveal
+                    href="{{ url_for('shop.catalog', category=category.slug) }}"
+                >
+
+                    <div class="category-photo">
+
+                        {% if category.slug in category_photos %}
+
+                            <img
+                                src="{{ category_photos[category.slug] }}"
+                                alt="{{ category.name }}"
+                                loading="lazy"
+                                referrerpolicy="no-referrer"
+                            >
+
+                        {% else %}
+
+                            <span class="cat-icon">
+                                {{ category.icon or '🏕️' }}
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+                    <span class="cat-name">
+                        {{ category.name }}
+                    </span>
+
+                    <span class="category-arrow">
+                        Перейти →
+                    </span>
+
                 </a>
+
             {% endfor %}
+
         </div>
+
     </div>
+
 </section>
 
+
 <!-- Новинки -->
+
 <section class="section">
+
     <div class="container">
+
         <div class="section-head">
+
             <div>
-                <span class="section-kicker">НОВОЕ ПОСТУПЛЕНИЕ</span>
+
+                <span class="section-kicker">
+                    НОВОЕ ПОСТУПЛЕНИЕ
+                </span>
+
                 <h2>Новинки магазина</h2>
+
             </div>
-            <a class="link-all" href="{{ url_for('shop.catalog') }}">
+
+            <a
+                class="link-all"
+                href="{{ url_for('shop.catalog') }}"
+            >
                 Все товары →
             </a>
+
         </div>
 
         <div class="grid">
+
             {% for product in novelties %}
+
                 {{ product_card(product) }}
+
             {% else %}
-                <p>Скоро здесь появятся новые товары.</p>
+
+                <p>
+                    Скоро здесь появятся новые товары.
+                </p>
+
             {% endfor %}
+
         </div>
+
     </div>
+
 </section>
 
+
 <!-- Акции -->
+
 {% if deals %}
+
 <section class="section section-alt deals-section">
+
     <div class="container">
+
         <div class="section-head">
+
             <div>
-                <span class="section-kicker">СПЕЦИАЛЬНЫЕ ПРЕДЛОЖЕНИЯ</span>
+
+                <span class="section-kicker">
+                    СПЕЦИАЛЬНЫЕ ПРЕДЛОЖЕНИЯ
+                </span>
+
                 <h2>Выгодные покупки</h2>
+
             </div>
-            <a class="link-all" href="{{ url_for('shop.catalog') }}">
+
+            <a
+                class="link-all"
+                href="{{ url_for('shop.catalog') }}"
+            >
                 Смотреть каталог →
             </a>
+
         </div>
 
         <div class="deals-layout">
+
             <div class="deals-promo">
-                <span class="deals-promo-label">Выгодные предложения</span>
-                <h3>Хорошее снаряжение по приятной цене</h3>
-                <p>Подборка товаров со сниженной стоимостью для твоих путешествий.</p>
-                <a href="{{ url_for('shop.catalog') }}"
-                   class="btn deals-promo-btn">
+
+                <span class="deals-promo-label">
+                    Выгодные предложения
+                </span>
+
+                <h3>
+                    Хорошее снаряжение
+                    по приятной цене
+                </h3>
+
+                <p>
+                    Подборка товаров со сниженной
+                    стоимостью для твоих путешествий.
+                </p>
+
+                <a
+                    href="{{ url_for('shop.catalog') }}"
+                    class="btn deals-promo-btn"
+                >
                     Перейти в каталог →
                 </a>
+
             </div>
 
             <div class="deals-products">
+
                 {% for product in deals %}
+
                     {{ product_card(product) }}
+
                 {% endfor %}
+
             </div>
+
         </div>
+
     </div>
+
 </section>
+
 {% endif %}
 
+
 <!-- Преимущества -->
+
 <section class="section benefits-section">
+
     <div class="container">
 
         <div class="benefits-heading">
-            <span class="section-kicker">ПОЧЕМУ ТРОФЕЙ</span>
-            <h2>Всё для твоих приключений</h2>
-            <p>Собирайся на рыбалку, охоту или в поход вместе с нами.</p>
+
+            <span class="section-kicker">
+                ПОЧЕМУ ТРОФЕЙ
+            </span>
+
+            <h2>
+                Всё для твоих приключений
+            </h2>
+
+            <p>
+                Собирайся на рыбалку, охоту или
+                в поход вместе с нами.
+            </p>
+
         </div>
 
         <div class="benefits-grid">
+
             <div class="benefit-card" data-reveal>
+
                 <div class="benefit-icon">🚚</div>
+
                 <h3>Удобное оформление</h3>
-                <p>Выбирай товары, добавляй их в корзину и оформляй заказ онлайн.</p>
+
+                <p>
+                    Выбирай товары, добавляй их в корзину
+                    и оформляй заказ онлайн.
+                </p>
+
             </div>
 
             <div class="benefit-card" data-reveal>
+
                 <div class="benefit-icon">🎣</div>
+
                 <h3>Снаряжение на любой сезон</h3>
-                <p>Товары для рыбалки, охоты, туризма и активного отдыха.</p>
+
+                <p>
+                    Товары для рыбалки, охоты, туризма
+                    и активного отдыха.
+                </p>
+
             </div>
 
             <div class="benefit-card" data-reveal>
+
                 <div class="benefit-icon">💚</div>
+
                 <h3>Удобный выбор</h3>
-                <p>Поиск, категории, сортировка и фильтры помогут найти нужное.</p>
+
+                <p>
+                    Поиск, категории, сортировка
+                    и фильтры помогут найти нужное.
+                </p>
+
             </div>
+
         </div>
+
     </div>
+
 </section>
 
+
 <!-- Финальный баннер -->
+
 <section class="container">
+
     <div class="final-banner">
+
         <div>
-            <span class="section-kicker">ТВОЁ СЛЕДУЮЩЕЕ ПРИКЛЮЧЕНИЕ</span>
-            <h2>Пора собираться в дорогу!</h2>
-            <p>Найди подходящее снаряжение в каталоге Трофея.</p>
+
+            <span class="section-kicker">
+                ТВОЁ СЛЕДУЮЩЕЕ ПРИКЛЮЧЕНИЕ
+            </span>
+
+            <h2>
+                Пора собираться в дорогу!
+            </h2>
+
+            <p>
+                Найди подходящее снаряжение
+                в каталоге Трофея.
+            </p>
+
         </div>
-        <a class="btn btn-accent" href="{{ url_for('shop.catalog') }}">
+
+        <a
+            class="btn btn-accent"
+            href="{{ url_for('shop.catalog') }}"
+        >
             Выбрать товары →
         </a>
+
     </div>
+
 </section>
 
 {% endblock %}
