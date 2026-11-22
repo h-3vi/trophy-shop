@@ -38,9 +38,11 @@
         href="{{ url_for('static', filename='css/auth.css') }}"
     >
 
-    <link rel="stylesheet"
-      href="{{ url_for('static', filename='css/admin.css') }}"
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/admin.css') }}"
     >
+
 </head>
 
 <body>
@@ -310,7 +312,7 @@
 
             <p class="muted">
                 Снаряжение для охоты, рыбалки и туризма.
-                Учебный интернет-магазин.
+                Всё для твоих приключений.
             </p>
 
         </div>
@@ -369,16 +371,23 @@
 
             <h4>Контакты</h4>
 
-            <p class="muted">
+            <a
+                class="footer-link"
+                href="tel:88005550102"
+            >
                 8 (800) 555-01-02
-            </p>
+            </a>
+
+            <a
+                class="footer-link"
+                href="mailto:denisznoev@gmail.com"
+            >
+                denisznoev@gmail.com
+            </a>
 
             <p class="muted">
-                shop@trophy-example.ru
-            </p>
-
-            <p class="muted">
-                Учебный интернет-магазин
+                г. Вологда,<br>
+                ул. Первомайская, д. 42
             </p>
 
         </div>
@@ -392,7 +401,7 @@
         <div class="container">
 
             © {{ current_year }} {{ site_name }}.
-            Учебный проект.
+            Все права защищены.
 
         </div>
 
