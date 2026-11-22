@@ -397,3 +397,43 @@ h1, h2, h3, h4 { line-height: 1.25; }
   .burger { display: flex; }
   .header-inner { gap: 14px; }
 }
+
+
+/* =========================================
+   TROPHY SHOP — ВЫРАВНИВАНИЕ КАРТОЧЕК
+   ========================================= */
+
+/* Центрирование последнего неполного ряда */
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* Четыре карточки в строке */
+.grid > * {
+    flex: 0 1 calc((100% - 60px) / 4);
+    min-width: 0;
+}
+
+/* Адаптация под планшеты */
+@media (max-width: 1100px) {
+    .grid > * {
+        flex-basis: calc((100% - 40px) / 3);
+    }
+}
+
+/* Две карточки на небольших экранах */
+@media (max-width: 700px) {
+    .grid > * {
+        flex-basis: calc((100% - 20px) / 2);
+    }
+}
+
+/* Одна карточка на телефоне */
+@media (max-width: 480px) {
+    .grid > * {
+        flex-basis: 100%;
+    }
+}
