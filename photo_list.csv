@@ -1,0 +1,101 @@
+﻿category;product_id;product_name;filename;current_image
+Рыбалка;1;Спиннинг Volzhanka Optima 2.4 м;fishing-001.jpg;img/products/rod-hand.png
+Рыбалка;2;Спиннинг Major Craft Crozzera 2.13 м;fishing-002.jpg;img/products/rod-camo.png
+Рыбалка;3;Удилище маховое Salmo Sniper 5 м;fishing-003.jpg;img/products/rods-lake.png
+Рыбалка;4;Катушка Shimano Nexave 4000;fishing-004.jpg;img/products/reel-black.png
+Рыбалка;5;Катушка Okuma Trio Rex 3000;fishing-005.jpg;img/products/reel-talica.png
+Рыбалка;6;Катушка Kaida Spin 3000;fishing-006.jpg;img/products/reel-spool.png
+Рыбалка;7;Плетёный шнур Power Pro 135 м 0.15 мм;fishing-007.jpg;img/products/braid-pack.png
+Рыбалка;8;Леска Owner Nylon 100 м 0.25 мм;fishing-008.jpg;img/products/line-spool.png
+Рыбалка;9;Воблер Rapala Original Floater 90;fishing-009.jpg;
+Рыбалка;10;Воблер-раттлин Hengjia VIB 70 мм 18 г;fishing-010.jpg;img/products/lure-vib.png
+Рыбалка;11;Блесна Acme Kastmaster 14 г;fishing-011.jpg;img/products/lure-spoon.png
+Рыбалка;12;Набор кренков Tsuribito 14 шт;fishing-012.jpg;img/products/lure-crank.png
+Рыбалка;13;Набор крючков Owner Iseama №8 (10 шт);fishing-013.jpg;
+Рыбалка;32;Спиннинг Daiwa Ninja Z 2,20 м;fishing-014.jpg;
+Рыбалка;33;Спиннинг Daiwa Ninja Z 2,40 м;fishing-015.jpg;
+Рыбалка;34;Спиннинг Maximus Black Widow 2,40 м;fishing-016.jpg;
+Рыбалка;35;Удилище поплавочное 5 м;fishing-017.jpg;
+Рыбалка;36;Удилище фидерное 3,60 м;fishing-018.jpg;
+Рыбалка;37;Катушка Daiwa 23 Ninja LT 2500;fishing-019.jpg;
+Рыбалка;38;Катушка Shimano Sahara FJ C3000;fishing-020.jpg;
+Охота;14;Прицел оптический Veber 3-9x40;hunting-001.jpg;img/products/scope-side.png
+Охота;15;Прицел Tract Toric 3-15x50;hunting-002.jpg;img/products/scope-long.png
+Охота;16;Чучело утки-кряквы вращающееся;hunting-003.jpg;img/products/decoy-duck.png
+Охота;17;Ягдташ кожаный «Следопыт»;hunting-004.jpg;img/products/game-bag.png
+Охота;18;Манок на тетерева Primos;hunting-005.jpg;
+Охота;19;Патронташ на 24 патрона 12 к;hunting-006.jpg;
+Охота;39;Бинокль Veber Classic 8x40;hunting-007.jpg;
+Охота;40;Бинокль Bresser Hunter 10x50;hunting-008.jpg;
+Охота;41;Монокуляр Следопыт 10x25;hunting-009.jpg;
+Охота;42;Фонарь налобный Fenix HL32R;hunting-010.jpg;
+Охота;43;Фонарь ручной Fenix E28R;hunting-011.jpg;
+Охота;44;Манок на утку Hunterhelp;hunting-012.jpg;
+Охота;45;Манок на гуся Nordik;hunting-013.jpg;
+Охота;46;Ремень для ружья Хольстер;hunting-014.jpg;
+Охота;47;Чехол для охотничьего снаряжения 120 см;hunting-015.jpg;
+Охота;48;Ягдташ кожаный Следопыт;hunting-016.jpg;
+Охота;49;Рюкзак охотничий Remington 35 л;hunting-017.jpg;
+Охота;50;Сиденье складное туристическое;hunting-018.jpg;
+Охота;51;Сидушка туристическая утеплённая;hunting-019.jpg;
+Охота;52;Термос Арктика 1 л;hunting-020.jpg;
+Одежда и обувь;20;Костюм зимний «Тайга» -30 °C;clothing-001.jpg;img/products/jacket-winter.png
+Одежда и обувь;21;Куртка демисезонная Huntec Softshell;clothing-002.jpg;img/products/jacket-camo.png
+Одежда и обувь;22;Сапоги ЭВА Nordman -45 °C;clothing-003.jpg;img/products/boots-black.png
+Одежда и обувь;23;Сапоги резиновые Muck Arctic Sport;clothing-004.jpg;img/products/boots-pair.png
+Одежда и обувь;24;Термобельё Norveg Hunter Wool;clothing-005.jpg;
+Одежда и обувь;53;Костюм зимний Тайга;clothing-006.jpg;
+Одежда и обувь;54;Костюм демисезонный Remington;clothing-007.jpg;
+Одежда и обувь;55;Куртка флисовая Norfin;clothing-008.jpg;
+Одежда и обувь;56;Куртка ветрозащитная Следопыт;clothing-009.jpg;
+Одежда и обувь;57;Брюки туристические Remington;clothing-010.jpg;
+Одежда и обувь;58;Брюки утеплённые Norfin;clothing-011.jpg;
+Одежда и обувь;59;Термобельё мужское комплект Norfin;clothing-012.jpg;
+Одежда и обувь;60;Термобельё женское комплект;clothing-013.jpg;
+Одежда и обувь;61;Сапоги ЭВА Nordman;clothing-014.jpg;
+Одежда и обувь;62;Сапоги резиновые мужские Nordman;clothing-015.jpg;
+Одежда и обувь;63;Сапоги женские ЭВА Nordman;clothing-016.jpg;
+Одежда и обувь;64;Ботинки треккинговые мужские;clothing-017.jpg;
+Одежда и обувь;65;Ботинки треккинговые женские;clothing-018.jpg;
+Одежда и обувь;66;Перчатки флисовые Norfin;clothing-019.jpg;
+Одежда и обувь;67;Перчатки утеплённые Remington;clothing-020.jpg;
+Туризм;25;Палатка Trek Planet Sierra 3;tourism-001.jpg;img/products/tent-forest.png
+Туризм;26;Палатка кемпинговая GreenCamp 2;tourism-002.jpg;img/products/tent-camp.png
+Туризм;27;Термос Stanley Classic 1.0 л;tourism-003.jpg;img/products/thermos-steel.png
+Туризм;28;Термос Arctica 1.6 л с ручкой;tourism-004.jpg;img/products/thermos-set.png
+Туризм;68;Палатка Naturehike Cloud Up 2;tourism-005.jpg;
+Туризм;69;Палатка туристическая двухместная;tourism-006.jpg;
+Туризм;70;Спальный мешок Norfin Nordic;tourism-007.jpg;
+Туризм;71;Спальный мешок туристический лёгкий;tourism-008.jpg;
+Туризм;72;Коврик туристический пенополиэтиленовый;tourism-009.jpg;
+Туризм;73;Коврик самонадувающийся Naturehike;tourism-010.jpg;
+Туризм;74;Рюкзак туристический 50 л;tourism-011.jpg;
+Туризм;75;Рюкзак туристический 30 л;tourism-012.jpg;
+Туризм;76;Термос Stanley Classic 1 л;tourism-013.jpg;
+Туризм;77;Термокружка Арктика 450 мл;tourism-014.jpg;
+Туризм;78;Горелка газовая туристическая;tourism-015.jpg;
+Туризм;79;Котелок туристический 1,5 л;tourism-016.jpg;
+Туризм;80;Набор туристической посуды;tourism-017.jpg;
+Туризм;81;Фонарь кемпинговый светодиодный;tourism-018.jpg;
+Туризм;82;Стул туристический складной;tourism-019.jpg;
+Туризм;83;Стол туристический складной;tourism-020.jpg;
+Ножи;29;Нож складной Kizlyar Supreme Bloke;knives-001.jpg;img/products/knife-black.png
+Ножи;30;Нож туристический Fällkniven F1x;knives-002.jpg;img/products/knife-wood.png
+Ножи;84;Нож складной Opinel №8;knives-003.jpg;
+Ножи;85;Нож складной Opinel №9;knives-004.jpg;
+Ножи;86;Нож складной Victorinox Spartan;knives-005.jpg;
+Ножи;87;Нож складной Victorinox Huntsman;knives-006.jpg;
+Ножи;88;Нож складной Ganzo G720;knives-007.jpg;
+Ножи;89;Нож складной Ganzo G704;knives-008.jpg;
+Ножи;90;Нож туристический Mora Companion;knives-009.jpg;
+Ножи;91;Нож туристический Mora Basic;knives-010.jpg;
+Ножи;92;Нож туристический Mora Kansbol;knives-011.jpg;
+Ножи;93;Нож кухонный туристический складной;knives-012.jpg;
+Ножи;94;Нож для рыбы филейный Rapala;knives-013.jpg;
+Ножи;95;Нож филейный кухонный 18 см;knives-014.jpg;
+Ножи;96;Нож кухонный универсальный Victorinox;knives-015.jpg;
+Ножи;97;Нож складной туристический компактный;knives-016.jpg;
+Ножи;98;Нож грибника складной;knives-017.jpg;
+Ножи;99;Нож для пикника складной;knives-018.jpg;
+Ножи;100;Нож туристический с ножнами;knives-019.jpg;
+Ножи;101;Нож для овощей кухонный;knives-020.jpg;
