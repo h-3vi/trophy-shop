@@ -1,58 +1,250 @@
+
 {% extends "base.html" %}
 {% from "macros.html" import product_card %}
 
 {% block content %}
+
+<style>
+    .product-layout .product-media {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        background: #ffffff;
+        border: 1px solid #e0e7e1;
+        border-radius: 16px;
+        min-height: 420px;
+    }
+
+    .product-layout .product-media img {
+        display: block;
+        width: 100%;
+        height: 420px;
+        padding: 22px;
+        object-fit: contain;
+        object-position: center;
+    }
+
+    .product-layout .product-desc {
+        color: #435648 !important;
+        opacity: 1 !important;
+        line-height: 1.8;
+    }
+
+    @media (max-width: 700px) {
+        .product-layout .product-media {
+            min-height: 300px;
+        }
+
+        .product-layout .product-media img {
+            height: 300px;
+            padding: 15px;
+        }
+    }
+</style>
+
 <div class="container">
-  <div class="breadcrumbs page-head">
-    <a href="{{ url_for('shop.index') }}">Главная</a> /
-    <a href="{{ url_for('shop.catalog') }}">Каталог</a> /
-    <a href="{{ url_for('shop.catalog', category=product.category.slug) }}">{{ product.category.name }}</a> /
-    {{ product.name }}
-  </div>
 
-  <div class="product-layout">
-    <div class="product-media">
-      {% if product.image and product.image.startswith('http') %}
-        <img src="{{ product.image }}" alt="{{ product.name }}">
-      {% elif product.image %}
-        <img src="{{ url_for('static', filename=product.image) }}" alt="{{ product.name }}">
-      {% else %}
-        <div class="card-ph"><span>{{ product.category.icon }}</span></div>
-      {% endif %}
-    </div>
-    <div class="product-info">
-      <span class="card-cat">{{ product.category.name }} · {{ product.brand }}</span>
-      <h1 data-testid="product-name">{{ product.name }}</h1>
-      <div class="product-price-box">
-        <strong data-testid="product-price">{{ product.price|money }}</strong>
-        {% if product.old_price %}
-          <s>{{ product.old_price|money }}</s>
-          <span class="badge-discount" style="position:static;">-{{ product.discount }}%</span>
-        {% endif %}
-      </div>
-      {% if product.in_stock %}
-        <p class="stock-ok">В наличии: {{ product.stock }} шт.</p>
-      {% else %}
-        <p class="stock-no">Нет в наличии</p>
-      {% endif %}
-      <form method="post" action="{{ url_for('shop.cart_add', product_id=product.id) }}" class="qty-row">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-        <label class="field">Количество
-          <input class="input" type="number" name="quantity" value="1" min="1"
-                 max="{{ product.stock }}" data-testid="qty-input">
-        </label>
-        <button class="btn btn-accent" type="submit" data-testid="add-to-cart"
-                {% if not product.in_stock %}disabled{% endif %}>В корзину</button>
-      </form>
-      <p class="product-desc" data-testid="product-description">{{ product.description }}</p>
-    </div>
-  </div>
+    <div class="breadcrumbs page-head">
 
-  {% if related %}
-  <section class="section">
-    <div class="section-head"><h2>Похожие товары</h2></div>
-    <div class="grid">{% for item in related %}{{ product_card(item) }}{% endfor %}</div>
-  </section>
-  {% endif %}
+        <a href="{{ url_for('shop.index') }}">
+            Главная
+        </a>
+        /
+
+        <a href="{{ url_for('shop.catalog') }}">
+            Каталог
+        </a>
+        /
+
+        <a href="{{ url_for('shop.catalog', category=product.category.slug) }}">
+            {{ product.category.name }}
+        </a>
+        /
+
+        {{ product.name }}
+
+    </div>
+
+    <div class="product-layout">
+
+        <!-- ФОТОГРАФИЯ ТОВАРА -->
+
+        <div class="product-media">
+
+            {% if product.image %}
+
+                {% set image_path = product.image.replace('\\', '/') %}
+
+                {% if image_path.startswith('https://')
+                      or image_path.startswith('http://') %}
+
+                    {% set image_url = image_path %}
+
+                {% else %}
+
+                    {% if image_path.startswith('/static/') %}
+                        {% set image_path = image_path[8:] %}
+                    {% elif image_path.startswith('static/') %}
+                        {% set image_path = image_path[7:] %}
+                    {% endif %}
+
+                    {% if image_path.startswith('products/') %}
+                        {% set image_path = 'img/' ~ image_path %}
+                    {% elif not image_path.startswith('img/')
+                          and not image_path.startswith('uploads/') %}
+                        {% set image_path = 'uploads/' ~ image_path %}
+                    {% endif %}
+
+                    {% set image_url = url_for(
+                        'static',
+                        filename=image_path
+                    ) %}
+
+                {% endif %}
+
+                <img
+                    src="{{ image_url }}"
+                    alt="{{ product.name }}"
+                    onerror="this.hidden=true; this.nextElementSibling.hidden=false;"
+                >
+
+                <div class="card-ph" hidden>
+                    <span>Фото временно недоступно</span>
+                </div>
+
+            {% else %}
+
+                <div class="card-ph">
+                    <span>Фото скоро появится</span>
+                </div>
+
+            {% endif %}
+
+        </div>
+
+        <!-- ИНФОРМАЦИЯ О ТОВАРЕ -->
+
+        <div class="product-info">
+
+            <span class="card-cat">
+                {{ product.category.name }}
+                {% if product.brand %}
+                    · {{ product.brand }}
+                {% endif %}
+            </span>
+
+            <h1 data-testid="product-name">
+                {{ product.name }}
+            </h1>
+
+            <div class="product-price-box">
+
+                <strong data-testid="product-price">
+                    {{ product.price|money }}
+                </strong>
+
+                {% if product.old_price %}
+
+                    <s>
+                        {{ product.old_price|money }}
+                    </s>
+
+                    <span
+                        class="badge-discount"
+                        style="position:static;"
+                    >
+                        -{{ product.discount }}%
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+            {% if product.in_stock %}
+
+                <p class="stock-ok">
+                    В наличии: {{ product.stock }} шт.
+                </p>
+
+            {% else %}
+
+                <p class="stock-no">
+                    Нет в наличии
+                </p>
+
+            {% endif %}
+
+            <form
+                method="post"
+                action="{{ url_for('shop.cart_add', product_id=product.id) }}"
+                class="qty-row"
+            >
+
+                <input
+                    type="hidden"
+                    name="csrf_token"
+                    value="{{ csrf_token() }}"
+                >
+
+                <label class="field">
+                    Количество
+
+                    <input
+                        class="input"
+                        type="number"
+                        name="quantity"
+                        value="1"
+                        min="1"
+                        max="{{ product.stock }}"
+                        data-testid="qty-input"
+                    >
+                </label>
+
+                <button
+                    class="btn btn-accent"
+                    type="submit"
+                    data-testid="add-to-cart"
+                    {% if not product.in_stock %}disabled{% endif %}
+                >
+                    В корзину
+                </button>
+
+            </form>
+
+            <p
+                class="product-desc"
+                data-testid="product-description"
+            >
+                {{ product.description }}
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- ПОХОЖИЕ ТОВАРЫ -->
+
+    {% if related %}
+
+        <section class="section">
+
+            <div class="section-head">
+                <h2>Похожие товары</h2>
+            </div>
+
+            <div class="grid">
+
+                {% for item in related %}
+                    {{ product_card(item) }}
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+    {% endif %}
+
 </div>
+
 {% endblock %}
