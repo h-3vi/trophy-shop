@@ -3,7 +3,6 @@
 <html lang="ru">
 
 <head>
-
     <meta charset="utf-8">
 
     <meta
@@ -38,14 +37,249 @@
         href="{{ url_for('static', filename='css/auth.css') }}"
     >
 
-    <link rel="stylesheet"
-      href="{{ url_for('static', filename='css/admin.css') }}"
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/admin.css') }}"
     >
+
+    <style>
+        /* ===================================
+           ОБЩАЯ СТРУКТУРА СТРАНИЦ
+           =================================== */
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body > main {
+            flex: 1 0 auto;
+            width: 100%;
+            min-height: 62vh;
+        }
+
+        /* ===================================
+           ЧИТАЕМОСТЬ ИНФОРМАЦИОННЫХ СТРАНИЦ
+           =================================== */
+
+        main .page-content,
+        main .info-content,
+        main .info-page,
+        main .text-page,
+        main .prose,
+        main .article-content {
+            color: #27372c;
+            line-height: 1.8;
+        }
+
+        main .page-content p,
+        main .page-content li,
+        main .info-content p,
+        main .info-content li,
+        main .info-page p,
+        main .info-page li,
+        main .text-page p,
+        main .text-page li,
+        main .prose p,
+        main .prose li,
+        main .article-content p,
+        main .article-content li {
+            color: #46594b !important;
+            opacity: 1 !important;
+            font-size: 16px;
+            line-height: 1.85;
+        }
+
+        main .page-content h1,
+        main .page-content h2,
+        main .page-content h3,
+        main .info-content h1,
+        main .info-content h2,
+        main .info-content h3,
+        main .info-page h1,
+        main .info-page h2,
+        main .info-page h3,
+        main .text-page h1,
+        main .text-page h2,
+        main .text-page h3,
+        main .prose h1,
+        main .prose h2,
+        main .prose h3 {
+            color: #14241a !important;
+        }
+
+        /* ===================================
+           ОБНОВЛЁННЫЙ ПОДВАЛ
+           =================================== */
+
+        .footer {
+            flex-shrink: 0;
+            width: 100%;
+            margin-top: 100px;
+            background: #141815;
+            color: #ffffff;
+        }
+
+        .footer .footer-grid {
+            display: grid;
+            grid-template-columns:
+                minmax(200px, 1.4fr)
+                minmax(140px, 1fr)
+                minmax(140px, 1fr)
+                minmax(190px, 1.2fr);
+            gap: 48px;
+            padding-top: 75px;
+            padding-bottom: 80px;
+            align-items: start;
+        }
+
+        .footer .footer-column {
+            min-width: 0;
+        }
+
+        .footer .footer-logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 22px;
+            color: #ffffff;
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+        .footer .footer-logo span {
+            color: #ffffff;
+        }
+
+        .footer h4 {
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 800;
+            margin: 0 0 22px;
+        }
+
+        .footer p,
+        .footer .muted {
+            margin: 0;
+            color: #c4cec6 !important;
+            font-size: 14px;
+            line-height: 1.85;
+            opacity: 1 !important;
+        }
+
+        .footer .footer-description {
+            max-width: 280px;
+        }
+
+        .footer .footer-link {
+            display: block;
+            width: fit-content;
+            max-width: 100%;
+            margin-bottom: 13px;
+            color: #d3ded5 !important;
+            font-size: 14px;
+            line-height: 1.6;
+            text-decoration: none;
+            overflow-wrap: anywhere;
+            transition: color .2s ease;
+        }
+
+        .footer .footer-link:hover {
+            color: #83d28b !important;
+        }
+
+        .footer .footer-address {
+            margin-top: 5px;
+        }
+
+        .footer .footer-bottom {
+            border-top: 1px solid #303b32;
+            padding: 25px 0;
+            color: #adb9af;
+            font-size: 13px;
+        }
+
+        @media (max-width: 950px) {
+            .footer .footer-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 42px;
+                padding-top: 60px;
+                padding-bottom: 65px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .footer {
+                margin-top: 65px;
+            }
+
+            .footer .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 35px;
+                padding-top: 50px;
+                padding-bottom: 55px;
+            }
+
+            .footer h4 {
+                margin-bottom: 14px;
+            }
+        }
+    </style>
+
+<!-- TROPHY_INFO_TEXT_FIX -->
+{% if request.endpoint == 'shop.info' %}
+<style>
+    /* Читаемый текст на страницах информации */
+
+    main {
+        color: #25372b;
+    }
+
+    main p,
+    main li,
+    main .muted,
+    main .lead,
+    main .text-muted {
+        color: #435648 !important;
+        opacity: 1 !important;
+        line-height: 1.8;
+    }
+
+    main h1,
+    main h2,
+    main h3,
+    main h4 {
+        color: #17251c !important;
+        opacity: 1 !important;
+    }
+
+    main a {
+        color: #267a39;
+    }
+
+    main a:hover {
+        color: #175c28;
+    }
+
+    /* Сохраняем белый текст на тёмных баннерах */
+
+    main .t-hero,
+    main .t-hero h1,
+    main .t-hero p {
+        color: #ffffff !important;
+    }
+</style>
+{% endif %}
+<!-- /TROPHY_INFO_TEXT_FIX -->
+
 </head>
 
 <body>
 
-<!-- ШАПКА -->
+<!-- ===================================
+     ШАПКА
+     =================================== -->
 
 <header class="header" id="header">
 
@@ -115,11 +349,9 @@
 
         </nav>
 
-        <!-- ПРАВАЯ ЧАСТЬ -->
+        <!-- КОРЗИНА И АВТОРИЗАЦИЯ -->
 
         <div class="header-actions">
-
-            <!-- КОРЗИНА -->
 
             <a
                 class="icon-btn"
@@ -151,8 +383,6 @@
 
             </a>
 
-            <!-- АВТОРИЗАЦИЯ -->
-
             <div class="header-auth">
 
                 {% if current_user.is_authenticated %}
@@ -180,7 +410,6 @@
                         method="POST"
                         action="{{ url_for('auth.logout') }}"
                     >
-
                         <input
                             type="hidden"
                             name="csrf_token"
@@ -193,7 +422,6 @@
                         >
                             Выйти
                         </button>
-
                     </form>
 
                 {% else %}
@@ -227,20 +455,20 @@
                 aria-controls="nav"
                 aria-expanded="false"
             >
-
                 <span></span>
                 <span></span>
                 <span></span>
-
             </button>
 
         </div>
 
     </div>
-
 </header>
 
-<!-- УВЕДОМЛЕНИЯ -->
+
+<!-- ===================================
+     УВЕДОМЛЕНИЯ
+     =================================== -->
 
 {% with messages = get_flashed_messages(with_categories=true) %}
 
@@ -265,7 +493,10 @@
 
 {% endwith %}
 
-<!-- ОСНОВНОЙ КОНТЕНТ -->
+
+<!-- ===================================
+     ОСНОВНОЙ КОНТЕНТ
+     =================================== -->
 
 <main>
 
@@ -274,17 +505,23 @@
 
 </main>
 
-<!-- ПОДВАЛ -->
+
+<!-- ===================================
+     ПОДВАЛ
+     =================================== -->
 
 <footer class="footer">
 
     <div class="container footer-grid">
 
-        <!-- О МАГАЗИНЕ -->
+        <!-- МАГАЗИН -->
 
-        <div>
+        <div class="footer-column">
 
-            <div class="logo footer-logo">
+            <a
+                class="logo footer-logo"
+                href="{{ url_for('shop.index') }}"
+            >
 
                 <svg
                     viewBox="0 0 24 24"
@@ -306,18 +543,19 @@
 
                 <span>Трофей</span>
 
-            </div>
+            </a>
 
-            <p class="muted">
-                Снаряжение для охоты, рыбалки и туризма.
-                Учебный интернет-магазин.
+            <p class="muted footer-description">
+                Снаряжение для охоты, рыбалки
+                и путешествий. Всё для твоих
+                приключений — в одном магазине.
             </p>
 
         </div>
 
         <!-- КАТАЛОГ -->
 
-        <div>
+        <div class="footer-column">
 
             <h4>Каталог</h4>
 
@@ -336,7 +574,7 @@
 
         <!-- ПОКУПАТЕЛЯМ -->
 
-        <div>
+        <div class="footer-column">
 
             <h4>Покупателям</h4>
 
@@ -365,40 +603,44 @@
 
         <!-- КОНТАКТЫ -->
 
-        <div>
+        <div class="footer-column">
 
             <h4>Контакты</h4>
 
-            <p class="muted">
+            <a
+                class="footer-link"
+                href="tel:88005550102"
+            >
                 8 (800) 555-01-02
-            </p>
+            </a>
 
-            <p class="muted">
-                shop@trophy-example.ru
-            </p>
+            <a
+                class="footer-link"
+                href="mailto:denisznoev@gmail.com"
+            >
+                denisznoev@gmail.com
+            </a>
 
-            <p class="muted">
-                Учебный интернет-магазин
+            <p class="muted footer-address">
+                г. Вологда,<br>
+                ул. Первомайская, д. 42
             </p>
 
         </div>
 
     </div>
 
-    <!-- КОПИРАЙТ -->
-
     <div class="footer-bottom">
 
         <div class="container">
-
             © {{ current_year }} {{ site_name }}.
-            Учебный проект.
-
+            Все права защищены.
         </div>
 
     </div>
 
 </footer>
+
 
 <!-- JAVASCRIPT -->
 

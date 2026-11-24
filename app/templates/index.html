@@ -4,46 +4,470 @@
 
 {% block content %}
 
+<style>
+    /* =====================================
+       ПОПУЛЯРНЫЕ КАТЕГОРИИ
+       ===================================== */
+
+    .categories-section .cat-grid {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 16px;
+    }
+
+    .categories-section .cat-tile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow: hidden;
+        min-width: 0;
+        padding: 10px 10px 22px;
+        text-decoration: none;
+        transition: transform .3s, box-shadow .3s;
+    }
+
+    .categories-section .cat-tile:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 14px 30px rgba(0, 0, 0, .09);
+    }
+
+    .category-photo {
+        width: 100%;
+        height: 165px;
+        overflow: hidden;
+        border-radius: 10px;
+        background: #edf2ed;
+        margin-bottom: 16px;
+    }
+
+    .category-photo img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform .4s;
+    }
+
+    .cat-tile:hover .category-photo img {
+        transform: scale(1.08);
+    }
+
+    .categories-section .cat-name {
+        display: block;
+        text-align: center;
+        font-size: 16px;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+
+    .categories-section .category-arrow {
+        margin-top: auto;
+        color: #247d2d;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    /* =====================================
+       ФОТО В БЛОКЕ АКЦИЙ
+       ===================================== */
+
+    .deals-section .deals-promo.deals-promo-photo {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: flex-start;
+        overflow: hidden;
+        min-height: 620px;
+        height: 100%;
+        padding: 36px 28px;
+        border-radius: 18px;
+        background:
+            linear-gradient(
+                180deg,
+                rgba(10, 35, 18, .08) 0%,
+                rgba(10, 35, 18, .3) 35%,
+                rgba(10, 35, 18, .85) 100%
+            ),
+            url("https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=1200&q=85")
+            center center / cover no-repeat !important;
+        background-color: #205b32 !important;
+        color: #fff;
+    }
+
+    .deals-promo-photo .deals-promo-content {
+        position: relative;
+        z-index: 2;
+        max-width: 290px;
+    }
+
+    .deals-promo-photo .deals-promo-label {
+        color: #e5f7e9;
+    }
+
+    .deals-section .deals-promo-photo h3 {
+        margin: 0 0 18px;
+        color: #fff;
+        font-size: 32px;
+        line-height: 1.15;
+        font-weight: 800;
+    }
+
+    .deals-section .deals-promo-photo p {
+        margin: 0 0 26px;
+        color: rgba(255, 255, 255, .95);
+        line-height: 1.6;
+    }
+
+    .deals-section .deals-promo-photo .deals-promo-btn {
+        background: #fff;
+        color: #1d652a;
+        border: 0;
+        font-weight: 800;
+    }
+
+    .deals-section .deals-promo-photo .deals-promo-btn:hover {
+        background: #edf7ef;
+        color: #174b22;
+    }
+
+    /* =====================================
+       НОВЫЙ БЛОК ПРЕИМУЩЕСТВ
+       ===================================== */
+
+    .benefits-section {
+        padding-top: 85px;
+        padding-bottom: 65px;
+    }
+
+    .benefits-section .benefits-heading {
+        max-width: 650px;
+        margin: 0 auto 38px;
+        text-align: center;
+    }
+
+    .benefits-section .benefits-heading h2 {
+        margin: 12px 0;
+        font-size: clamp(30px, 4vw, 42px);
+        line-height: 1.15;
+        color: #142019;
+    }
+
+    .benefits-section .benefits-heading p {
+        color: #6a766d;
+        font-size: 16px;
+        line-height: 1.6;
+    }
+
+    .benefits-section .benefits-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 20px;
+    }
+
+    .benefits-section .benefit-card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        min-width: 0;
+        padding: 32px;
+        min-height: 250px;
+        border: 1px solid #dae5dc;
+        border-radius: 20px;
+        background: #fff;
+        box-shadow: 0 8px 25px rgba(15, 45, 25, .035);
+        transition:
+            transform .3s ease,
+            box-shadow .3s ease,
+            border-color .3s ease;
+    }
+
+    .benefits-section .benefit-card:hover {
+        transform: translateY(-6px);
+        border-color: #b1d3b8;
+        box-shadow: 0 18px 35px rgba(15, 45, 25, .09);
+    }
+
+    .benefits-section .benefit-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 62px;
+        height: 62px;
+        margin-bottom: 26px;
+        border-radius: 16px;
+        background: #e9f4eb;
+        color: #267a35;
+    }
+
+    .benefits-section .benefit-icon svg {
+        width: 30px;
+        height: 30px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    .benefits-section .benefit-card h3 {
+        margin: 0 0 12px;
+        font-size: 19px;
+        line-height: 1.3;
+        color: #152119;
+    }
+
+    .benefits-section .benefit-card p {
+        margin: 0;
+        font-size: 14px;
+        line-height: 1.8;
+        color: #68766d;
+    }
+
+    /* =====================================
+       НОВЫЙ ФИНАЛЬНЫЙ БАННЕР
+       ===================================== */
+
+    .final-adventure {
+        position: relative;
+        display: flex;
+        align-items: flex-end;
+        overflow: hidden;
+        min-height: 390px;
+        margin-top: 20px;
+        margin-bottom: 70px;
+        padding: 48px 52px;
+        border-radius: 24px;
+        background:
+            linear-gradient(
+                90deg,
+                rgba(9, 33, 19, .9) 0%,
+                rgba(9, 33, 19, .7) 46%,
+                rgba(9, 33, 19, .12) 100%
+            ),
+            url("https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1800&q=85")
+            center center / cover no-repeat;
+        background-color: #244a35;
+        color: #fff;
+        box-shadow: 0 18px 40px rgba(15, 35, 22, .12);
+    }
+
+    .final-adventure-content {
+        position: relative;
+        z-index: 1;
+        max-width: 570px;
+    }
+
+    .final-adventure .section-kicker {
+        color: #d6f2dc;
+        font-weight: 800;
+        letter-spacing: 1.5px;
+    }
+
+    .final-adventure h2 {
+        margin: 14px 0 14px;
+        max-width: 560px;
+        color: #fff;
+        font-size: clamp(32px, 4vw, 48px);
+        font-weight: 800;
+        line-height: 1.12;
+    }
+
+    .final-adventure p {
+        max-width: 440px;
+        margin: 0 0 28px;
+        color: rgba(255, 255, 255, .9);
+        font-size: 16px;
+        line-height: 1.7;
+    }
+
+    .final-adventure .adventure-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 50px;
+        padding: 14px 26px;
+        border-radius: 12px;
+        background: #fff;
+        color: #216b2b;
+        font-size: 14px;
+        font-weight: 800;
+        text-decoration: none;
+        transition: transform .2s, background .2s;
+    }
+
+    .final-adventure .adventure-button:hover {
+        transform: translateY(-3px);
+        background: #ecf7ed;
+        color: #185323;
+    }
+
+    /* =====================================
+       АДАПТИВНОСТЬ
+       ===================================== */
+
+    @media (max-width: 1100px) {
+        .categories-section .cat-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .deals-section .deals-promo.deals-promo-photo {
+            min-height: 480px;
+        }
+    }
+
+    @media (max-width: 800px) {
+        .benefits-section .benefits-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .benefits-section .benefit-card {
+            min-height: auto;
+        }
+
+        .final-adventure {
+            min-height: 350px;
+            padding: 35px;
+        }
+    }
+
+    @media (max-width: 700px) {
+        .categories-section .cat-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .category-photo {
+            height: 145px;
+        }
+
+        .deals-section .deals-promo.deals-promo-photo {
+            min-height: 340px;
+            padding: 26px 22px;
+        }
+
+        .deals-section .deals-promo-photo h3 {
+            font-size: 28px;
+        }
+
+        .final-adventure {
+            padding: 30px 24px;
+            background:
+                linear-gradient(
+                    0deg,
+                    rgba(9, 33, 19, .9),
+                    rgba(9, 33, 19, .32)
+                ),
+                url("https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1000&q=80")
+                center / cover no-repeat;
+        }
+    }
+
+    @media (max-width: 420px) {
+        .categories-section .cat-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .category-photo {
+            height: 190px;
+        }
+
+        .benefits-section .benefit-card {
+            padding: 25px;
+        }
+
+        .final-adventure h2 {
+            font-size: 30px;
+        }
+    }
+</style>
+
+
+<!-- ГЛАВНЫЙ СЛАЙДЕР -->
+
 <section class="hero" data-testid="hero-slider">
+
     <div class="slides" id="slides">
 
         <!-- Рыбалка -->
-        <div class="slide is-active" data-testid="slide"
-             style="background-image: url('{{ url_for('static', filename='img/slides/slide-1.png') }}')">
+
+        <div
+            class="slide is-active"
+            data-testid="slide"
+            style="background-image: url('{{ url_for('static', filename='img/slides/slide-1.png') }}')"
+        >
             <div class="container slide-content">
-                <span class="slide-tag">Для любителей рыбалки</span>
+                <span class="slide-tag">
+                    Для любителей рыбалки
+                </span>
+
                 <h1>Твой лучший улов начинается здесь</h1>
-                <p>Спиннинги, катушки, приманки и проверенное снаряжение для рыбалки.</p>
-                <a class="btn btn-accent hero-link"
-                   href="{{ url_for('shop.catalog', category='rybalka') }}">
+
+                <p>
+                    Спиннинги, катушки, приманки и проверенное
+                    снаряжение для рыбалки.
+                </p>
+
+                <a
+                    class="btn btn-accent hero-link"
+                    href="{{ url_for('shop.catalog', category='rybalka') }}"
+                >
                     Товары для рыбалки →
                 </a>
             </div>
         </div>
 
         <!-- Охота -->
-        <div class="slide" data-testid="slide"
-             style="background-image: url('{{ url_for('static', filename='img/slides/slide-2.png') }}')">
+
+        <div
+            class="slide"
+            data-testid="slide"
+            style="background-image: url('{{ url_for('static', filename='img/slides/slide-2.png') }}')"
+        >
             <div class="container slide-content">
-                <span class="slide-tag">Снаряжение для охоты</span>
+                <span class="slide-tag">
+                    Снаряжение для охоты
+                </span>
+
                 <h1>Готов к любому сезону</h1>
-                <p>Экипировка и аксессуары для комфортного пребывания на природе.</p>
-                <a class="btn btn-accent hero-link"
-                   href="{{ url_for('shop.catalog', category='ohota') }}">
+
+                <p>
+                    Экипировка и аксессуары для комфортного
+                    пребывания на природе.
+                </p>
+
+                <a
+                    class="btn btn-accent hero-link"
+                    href="{{ url_for('shop.catalog', category='ohota') }}"
+                >
                     Смотреть снаряжение →
                 </a>
             </div>
         </div>
 
         <!-- Туризм -->
-        <div class="slide" data-testid="slide"
-             style="background-image: url('{{ url_for('static', filename='img/slides/slide-3.png') }}')">
+
+        <div
+            class="slide"
+            data-testid="slide"
+            style="background-image: url('{{ url_for('static', filename='img/slides/slide-3.png') }}')"
+        >
             <div class="container slide-content">
-                <span class="slide-tag">Для новых приключений</span>
+                <span class="slide-tag">
+                    Для новых приключений
+                </span>
+
                 <h1>Открой для себя новые маршруты</h1>
-                <p>Палатки, термосы и туристическое оборудование для отдыха на природе.</p>
-                <a class="btn btn-accent hero-link"
-                   href="{{ url_for('shop.catalog', category='turizm') }}">
+
+                <p>
+                    Палатки, термосы и туристическое
+                    оборудование для отдыха на природе.
+                </p>
+
+                <a
+                    class="btn btn-accent hero-link"
+                    href="{{ url_for('shop.catalog', category='turizm') }}"
+                >
                     Всё для туризма →
                 </a>
             </div>
@@ -51,145 +475,353 @@
 
     </div>
 
-    <button class="slider-btn prev" type="button"
-            data-testid="slider-prev"
-            aria-label="Предыдущий слайд">&#8249;</button>
+    <button
+        class="slider-btn prev"
+        type="button"
+        data-testid="slider-prev"
+        aria-label="Предыдущий слайд"
+    >&#8249;</button>
 
-    <button class="slider-btn next" type="button"
-            data-testid="slider-next"
-            aria-label="Следующий слайд">&#8250;</button>
+    <button
+        class="slider-btn next"
+        type="button"
+        data-testid="slider-next"
+        aria-label="Следующий слайд"
+    >&#8250;</button>
 
     <div class="slider-dots" id="slider-dots"></div>
+
 </section>
 
-<!-- Категории -->
+
+<!-- ПОПУЛЯРНЫЕ КАТЕГОРИИ -->
+
 <section class="section categories-section">
+
     <div class="container">
+
         <div class="section-head">
             <div>
                 <span class="section-kicker">ВЫБИРАЙ СВОЁ</span>
                 <h2>Популярные категории</h2>
             </div>
-            <a class="link-all" href="{{ url_for('shop.catalog') }}">
+
+            <a
+                class="link-all"
+                href="{{ url_for('shop.catalog') }}"
+            >
                 Весь каталог →
             </a>
         </div>
 
+        {% set category_photos = {
+            'nozhi': 'https://commons.wikimedia.org/wiki/Special:FilePath/Pocket_knives.jpg',
+            'odezhda-i-obuv': 'https://commons.wikimedia.org/wiki/Special:FilePath/Climbing_Boots.jpg',
+            'ohota': 'https://commons.wikimedia.org/wiki/Special:FilePath/Binoculars_in_action.jpg',
+            'rybalka': 'https://commons.wikimedia.org/wiki/Special:FilePath/Fishing_Rods_-_50134725316.jpg',
+            'turizm': 'https://commons.wikimedia.org/wiki/Special:FilePath/White_and_yellow_camping_tent_in_the_middle_of_forest.jpg'
+        } %}
+
         <div class="cat-grid">
+
             {% for category in nav_categories %}
-                <a class="cat-tile" data-reveal
-                   href="{{ url_for('shop.catalog', category=category.slug) }}">
-                    <span class="cat-icon">{{ category.icon or '🏕️' }}</span>
-                    <span class="cat-name">{{ category.name }}</span>
-                    <span class="category-arrow">Перейти →</span>
+
+                <a
+                    class="cat-tile"
+                    data-reveal
+                    href="{{ url_for('shop.catalog', category=category.slug) }}"
+                >
+
+                    <div class="category-photo">
+
+                        {% if category.slug in category_photos %}
+
+                            <img
+                                src="{{ category_photos[category.slug] }}"
+                                alt="{{ category.name }}"
+                                loading="lazy"
+                                referrerpolicy="no-referrer"
+                            >
+
+                        {% else %}
+
+                            <span class="cat-icon">
+                                {{ category.icon or '🏕️' }}
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+                    <span class="cat-name">
+                        {{ category.name }}
+                    </span>
+
+                    <span class="category-arrow">
+                        Перейти →
+                    </span>
+
                 </a>
+
             {% endfor %}
+
         </div>
     </div>
 </section>
 
-<!-- Новинки -->
+
+<!-- НОВИНКИ -->
+
 <section class="section">
+
     <div class="container">
+
         <div class="section-head">
             <div>
-                <span class="section-kicker">НОВОЕ ПОСТУПЛЕНИЕ</span>
+                <span class="section-kicker">
+                    НОВОЕ ПОСТУПЛЕНИЕ
+                </span>
+
                 <h2>Новинки магазина</h2>
             </div>
-            <a class="link-all" href="{{ url_for('shop.catalog') }}">
+
+            <a
+                class="link-all"
+                href="{{ url_for('shop.catalog') }}"
+            >
                 Все товары →
             </a>
         </div>
 
         <div class="grid">
+
             {% for product in novelties %}
                 {{ product_card(product) }}
             {% else %}
                 <p>Скоро здесь появятся новые товары.</p>
             {% endfor %}
+
         </div>
     </div>
 </section>
 
-<!-- Акции -->
+
+<!-- АКЦИИ -->
+
 {% if deals %}
+
 <section class="section section-alt deals-section">
+
     <div class="container">
+
         <div class="section-head">
             <div>
-                <span class="section-kicker">СПЕЦИАЛЬНЫЕ ПРЕДЛОЖЕНИЯ</span>
+                <span class="section-kicker">
+                    СПЕЦИАЛЬНЫЕ ПРЕДЛОЖЕНИЯ
+                </span>
+
                 <h2>Выгодные покупки</h2>
             </div>
-            <a class="link-all" href="{{ url_for('shop.catalog') }}">
+
+            <a
+                class="link-all"
+                href="{{ url_for('shop.catalog') }}"
+            >
                 Смотреть каталог →
             </a>
         </div>
 
         <div class="deals-layout">
-            <div class="deals-promo">
-                <span class="deals-promo-label">Выгодные предложения</span>
-                <h3>Хорошее снаряжение по приятной цене</h3>
-                <p>Подборка товаров со сниженной стоимостью для твоих путешествий.</p>
-                <a href="{{ url_for('shop.catalog') }}"
-                   class="btn deals-promo-btn">
-                    Перейти в каталог →
-                </a>
+
+            <div class="deals-promo deals-promo-photo">
+
+                <div class="deals-promo-content">
+
+                    <span class="deals-promo-label">
+                        Выгодные предложения
+                    </span>
+
+                    <h3>
+                        Хорошее снаряжение
+                        по приятной цене
+                    </h3>
+
+                    <p>
+                        Подборка товаров со сниженной
+                        стоимостью для твоих путешествий.
+                    </p>
+
+                    <a
+                        href="{{ url_for('shop.catalog') }}"
+                        class="btn deals-promo-btn"
+                    >
+                        Перейти в каталог →
+                    </a>
+
+                </div>
             </div>
 
             <div class="deals-products">
+
                 {% for product in deals %}
                     {{ product_card(product) }}
                 {% endfor %}
+
             </div>
+
         </div>
     </div>
 </section>
+
 {% endif %}
 
-<!-- Преимущества -->
+
+<!-- =====================================
+     НОВЫЕ ПРЕИМУЩЕСТВА
+     ===================================== -->
+
 <section class="section benefits-section">
+
     <div class="container">
 
         <div class="benefits-heading">
-            <span class="section-kicker">ПОЧЕМУ ТРОФЕЙ</span>
-            <h2>Всё для твоих приключений</h2>
-            <p>Собирайся на рыбалку, охоту или в поход вместе с нами.</p>
+
+            <span class="section-kicker">
+                ПОЧЕМУ ТРОФЕЙ
+            </span>
+
+            <h2>Снаряжение для настоящих приключений</h2>
+
+            <p>
+                Всё необходимое для рыбалки, охоты
+                и путешествий — в одном магазине.
+            </p>
+
         </div>
 
         <div class="benefits-grid">
-            <div class="benefit-card" data-reveal>
-                <div class="benefit-icon">🚚</div>
-                <h3>Удобное оформление</h3>
-                <p>Выбирай товары, добавляй их в корзину и оформляй заказ онлайн.</p>
-            </div>
+
+            <!-- Преимущество 1 -->
 
             <div class="benefit-card" data-reveal>
-                <div class="benefit-icon">🎣</div>
-                <h3>Снаряжение на любой сезон</h3>
-                <p>Товары для рыбалки, охоты, туризма и активного отдыха.</p>
+
+                <div class="benefit-icon">
+
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M3 7h11v11H3z"/>
+                        <path d="M14 11h4l3 3v4h-7z"/>
+                        <circle cx="7.5" cy="18" r="2"/>
+                        <circle cx="17.5" cy="18" r="2"/>
+                        <path d="M6 4h7"/>
+                    </svg>
+
+                </div>
+
+                <h3>Удобное оформление заказа</h3>
+
+                <p>
+                    Выбирай товары в каталоге, добавляй
+                    их в корзину и оформляй покупку
+                    онлайн за несколько шагов.
+                </p>
+
             </div>
 
+            <!-- Преимущество 2 -->
+
             <div class="benefit-card" data-reveal>
-                <div class="benefit-icon">💚</div>
-                <h3>Удобный выбор</h3>
-                <p>Поиск, категории, сортировка и фильтры помогут найти нужное.</p>
+
+                <div class="benefit-icon">
+
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <circle cx="12" cy="12" r="9"/>
+                        <path d="m15.5 8.5-2.5 5-5 2.5 2.5-5z"/>
+                        <path d="M12 3v2"/>
+                        <path d="M12 19v2"/>
+                        <path d="M3 12h2"/>
+                        <path d="M19 12h2"/>
+                    </svg>
+
+                </div>
+
+                <h3>Всё для активного отдыха</h3>
+
+                <p>
+                    Удилища, походное оборудование,
+                    одежда, обувь и полезные аксессуары
+                    для приключений в любое время года.
+                </p>
+
             </div>
+
+            <!-- Преимущество 3 -->
+
+            <div class="benefit-card" data-reveal>
+
+                <div class="benefit-icon">
+
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M4 7h16"/>
+                        <path d="M4 12h16"/>
+                        <path d="M4 17h16"/>
+                        <circle cx="9" cy="7" r="2" fill="#e9f4eb"/>
+                        <circle cx="15" cy="12" r="2" fill="#e9f4eb"/>
+                        <circle cx="10" cy="17" r="2" fill="#e9f4eb"/>
+                    </svg>
+
+                </div>
+
+                <h3>Легко найти нужное</h3>
+
+                <p>
+                    Удобные категории, поиск, сортировка
+                    и фильтры помогут быстро подобрать
+                    снаряжение под твои задачи.
+                </p>
+
+            </div>
+
         </div>
     </div>
 </section>
 
-<!-- Финальный баннер -->
+
+<!-- =====================================
+     ФИНАЛЬНЫЙ БАННЕР С ФОТО
+     ===================================== -->
+
 <section class="container">
-    <div class="final-banner">
-        <div>
-            <span class="section-kicker">ТВОЁ СЛЕДУЮЩЕЕ ПРИКЛЮЧЕНИЕ</span>
-            <h2>Пора собираться в дорогу!</h2>
-            <p>Найди подходящее снаряжение в каталоге Трофея.</p>
+
+    <div class="final-adventure">
+
+        <div class="final-adventure-content">
+
+            <span class="section-kicker">
+                ТВОЁ СЛЕДУЮЩЕЕ ПРИКЛЮЧЕНИЕ
+            </span>
+
+            <h2>
+                Мир приключений
+                начинается здесь
+            </h2>
+
+            <p>
+                Горы, леса, озёра и новые маршруты.
+                Подбери надёжное снаряжение
+                и отправляйся навстречу впечатлениям.
+            </p>
+
+            <a
+                class="adventure-button"
+                href="{{ url_for('shop.catalog') }}"
+            >
+                Выбрать снаряжение →
+            </a>
+
         </div>
-        <a class="btn btn-accent" href="{{ url_for('shop.catalog') }}">
-            Выбрать товары →
-        </a>
+
     </div>
+
 </section>
 
 {% endblock %}

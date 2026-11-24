@@ -1,0 +1,682 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+{% set page_slug = request.view_args.get('slug', '') if request.view_args else '' %}
+
+<style>
+    .t-info {
+        --forest: #236b38;
+        --ink: #17251d;
+        --muted: #58695e;
+        --line: #dce6dd;
+        padding: 48px 0 90px;
+        color: var(--ink);
+    }
+
+    .t-info *,
+    .t-info *::before,
+    .t-info *::after {
+        box-sizing: border-box;
+    }
+
+    .t-info .t-container {
+        width: min(1180px, calc(100% - 40px));
+        margin: 0 auto;
+    }
+
+    .t-info .t-breadcrumbs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 32px;
+        color: #68786c;
+        font-size: 13px;
+    }
+
+    .t-info .t-breadcrumbs a {
+        color: #39744a;
+        text-decoration: none;
+    }
+
+    .t-info .t-breadcrumbs a:hover {
+        text-decoration: underline;
+    }
+
+    .t-info .t-hero {
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        min-height: 295px;
+        padding: 45px;
+        margin-bottom: 30px;
+        border-radius: 24px;
+        background:
+            linear-gradient(
+                90deg,
+                rgba(10, 36, 21, .94),
+                rgba(10, 36, 21, .76) 55%,
+                rgba(10, 36, 21, .3)
+            ),
+            url("https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=1600&q=85")
+            center / cover no-repeat;
+        background-color: #204832;
+        color: white;
+    }
+
+    .t-info .t-hero-inner {
+        position: relative;
+        z-index: 1;
+        max-width: 700px;
+    }
+
+    .t-info .t-kicker {
+        display: block;
+        margin-bottom: 15px;
+        font-size: 12px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: #bce9c3;
+    }
+
+    .t-info .t-hero h1 {
+        margin: 0 0 16px;
+        font-size: clamp(30px, 4vw, 48px);
+        line-height: 1.12;
+        font-weight: 800;
+        color: #fff;
+    }
+
+    .t-info .t-hero p {
+        margin: 0;
+        color: #eef8f0;
+        font-size: 16px;
+        line-height: 1.75;
+    }
+
+    .t-info .t-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 20px;
+        margin-bottom: 28px;
+    }
+
+    .t-info .t-grid.two {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .t-info .t-card {
+        min-width: 0;
+        padding: 30px;
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        background: #fff;
+        box-shadow: 0 8px 28px rgba(20, 40, 25, .035);
+        transition: transform .25s, box-shadow .25s;
+    }
+
+    .t-info .t-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 14px 35px rgba(20, 40, 25, .09);
+    }
+
+    .t-info .t-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 58px;
+        height: 58px;
+        margin-bottom: 24px;
+        border-radius: 16px;
+        background: #e7f3e9;
+        color: var(--forest);
+    }
+
+    .t-info .t-icon svg {
+        width: 29px;
+        height: 29px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    .t-info .t-card h2,
+    .t-info .t-card h3 {
+        margin: 0 0 12px;
+        color: var(--ink);
+        font-size: 21px;
+        line-height: 1.3;
+    }
+
+    .t-info .t-card p,
+    .t-info .t-card li {
+        margin: 0;
+        color: var(--muted) !important;
+        font-size: 15px;
+        line-height: 1.85;
+        opacity: 1 !important;
+    }
+
+    .t-info .t-card p + p {
+        margin-top: 12px;
+    }
+
+    .t-info .t-section-title {
+        margin: 48px 0 22px;
+        font-size: clamp(25px, 3vw, 32px);
+        color: var(--ink);
+    }
+
+    .t-info .t-wide {
+        padding: 35px;
+        margin-bottom: 26px;
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        background: white;
+    }
+
+    .t-info .t-wide h2 {
+        margin: 0 0 15px;
+        color: var(--ink);
+        font-size: 25px;
+    }
+
+    .t-info .t-wide p {
+        margin: 0 0 13px;
+        color: var(--muted) !important;
+        font-size: 16px;
+        line-height: 1.9;
+        opacity: 1 !important;
+    }
+
+    .t-info .t-wide p:last-child {
+        margin-bottom: 0;
+    }
+
+    .t-info .t-steps {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 20px;
+        margin-bottom: 25px;
+    }
+
+    .t-info .t-step {
+        padding: 28px;
+        background: #eaf3eb;
+        border-radius: 18px;
+    }
+
+    .t-info .t-step-number {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        margin-bottom: 20px;
+        border-radius: 50%;
+        background: #287c3b;
+        color: white;
+        font-weight: 800;
+    }
+
+    .t-info .t-step h3 {
+        margin: 0 0 9px;
+        color: var(--ink);
+        font-size: 18px;
+    }
+
+    .t-info .t-step p {
+        margin: 0;
+        color: var(--muted) !important;
+        line-height: 1.75;
+        opacity: 1 !important;
+    }
+
+    .t-info .t-contact-label {
+        display: block;
+        margin-bottom: 8px;
+        color: #718173;
+        font-size: 13px;
+    }
+
+    .t-info .t-contact-value {
+        color: var(--ink);
+        font-size: 19px;
+        font-weight: 700;
+        overflow-wrap: anywhere;
+    }
+
+    .t-info .t-contact-value a {
+        color: #226e35;
+        text-decoration: none;
+    }
+
+    .t-info .t-contact-value a:hover {
+        text-decoration: underline;
+    }
+
+    .t-info .t-banner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 25px;
+        padding: 35px 40px;
+        margin-top: 35px;
+        border-radius: 20px;
+        background: #e5f0e7;
+        border: 1px solid #cce1d1;
+    }
+
+    .t-info .t-banner h2 {
+        margin: 0 0 8px;
+        color: var(--ink);
+        font-size: 26px;
+    }
+
+    .t-info .t-banner p {
+        margin: 0;
+        color: var(--muted) !important;
+        line-height: 1.6;
+        opacity: 1 !important;
+    }
+
+    .t-info .t-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        min-height: 48px;
+        padding: 13px 24px;
+        border-radius: 11px;
+        background: #287c34;
+        color: #fff;
+        font-weight: 700;
+        font-size: 14px;
+        text-decoration: none;
+        transition: background .2s, transform .2s;
+    }
+
+    .t-info .t-button:hover {
+        background: #1b6229;
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    @media (max-width: 850px) {
+        .t-info .t-grid,
+        .t-info .t-grid.two,
+        .t-info .t-steps {
+            grid-template-columns: 1fr;
+        }
+
+        .t-info .t-hero {
+            padding: 35px 28px;
+        }
+
+        .t-info .t-banner {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+    }
+
+    @media (max-width: 500px) {
+        .t-info {
+            padding-top: 25px;
+            padding-bottom: 55px;
+        }
+
+        .t-info .t-container {
+            width: calc(100% - 28px);
+        }
+
+        .t-info .t-hero {
+            min-height: 240px;
+            padding: 30px 22px;
+            border-radius: 18px;
+        }
+
+        .t-info .t-card,
+        .t-info .t-wide {
+            padding: 23px;
+        }
+
+        .t-info .t-banner {
+            padding: 27px 23px;
+        }
+
+        .t-info .t-button {
+            width: 100%;
+        }
+    }
+</style>
+
+<section class="t-info">
+    <div class="t-container">
+
+        <nav class="t-breadcrumbs" aria-label="Навигация">
+            <a href="{{ url_for('shop.index') }}">Главная</a>
+            <span>/</span>
+
+            {% if page_slug == 'delivery' %}
+                <span>Доставка и оплата</span>
+            {% elif page_slug == 'about' %}
+                <span>О магазине</span>
+            {% elif page_slug == 'contacts' %}
+                <span>Контакты</span>
+            {% endif %}
+        </nav>
+
+        {% if page_slug == 'delivery' %}
+
+        <!-- ДОСТАВКА И ОПЛАТА -->
+
+        <div class="t-hero">
+            <div class="t-hero-inner">
+                <span class="t-kicker">Информация для покупателей</span>
+                <h1>Доставка и оплата</h1>
+                <p>
+                    Выбирай снаряжение, оформляй заказ
+                    и получай информацию о доступных
+                    вариантах доставки и оплаты.
+                </p>
+            </div>
+        </div>
+
+        <h2 class="t-section-title">Как оформить заказ</h2>
+
+        <div class="t-steps">
+            <div class="t-step">
+                <span class="t-step-number">1</span>
+                <h3>Выбери товары</h3>
+                <p>
+                    Добавь необходимое снаряжение
+                    из каталога в корзину.
+                </p>
+            </div>
+
+            <div class="t-step">
+                <span class="t-step-number">2</span>
+                <h3>Укажи данные</h3>
+                <p>
+                    Проверь состав заказа и заполни
+                    необходимые поля оформления.
+                </p>
+            </div>
+
+            <div class="t-step">
+                <span class="t-step-number">3</span>
+                <h3>Подтверди заказ</h3>
+                <p>
+                    Проверь итоговую стоимость
+                    и доступный способ оплаты.
+                </p>
+            </div>
+        </div>
+
+        <h2 class="t-section-title">Доставка</h2>
+
+        <div class="t-grid two">
+            <div class="t-card">
+                <div class="t-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M3 7h11v11H3z"/>
+                        <path d="M14 11h4l3 3v4h-7z"/>
+                        <circle cx="7.5" cy="18" r="2"/>
+                        <circle cx="18" cy="18" r="2"/>
+                    </svg>
+                </div>
+                <h3>Доставка заказа</h3>
+                <p>
+                    Возможность доставки, её стоимость
+                    и сроки уточняются при оформлении
+                    заказа или обращении в магазин.
+                </p>
+            </div>
+
+            <div class="t-card">
+                <div class="t-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M3 11 12 4l9 7"/>
+                        <path d="M5 10v10h14V10"/>
+                        <path d="M9 20v-6h6v6"/>
+                    </svg>
+                </div>
+                <h3>Самовывоз</h3>
+                <p>
+                    Информацию о возможности получения
+                    заказа в Вологде уточняй
+                    по контактному телефону.
+                </p>
+            </div>
+        </div>
+
+        <h2 class="t-section-title">Оплата</h2>
+
+        <div class="t-wide">
+            <h2>Удобное оформление покупки</h2>
+            <p>
+                Доступные способы оплаты отображаются
+                при оформлении заказа.
+            </p>
+            <p>
+                Перед подтверждением внимательно
+                проверь выбранный вариант и итоговую сумму.
+            </p>
+        </div>
+
+        <div class="t-banner">
+            <div>
+                <h2>Готов выбрать снаряжение?</h2>
+                <p>Переходи в каталог и собирай свою корзину.</p>
+            </div>
+
+            <a class="t-button" href="{{ url_for('shop.catalog') }}">
+                Открыть каталог →
+            </a>
+        </div>
+
+        {% elif page_slug == 'about' %}
+
+        <!-- О МАГАЗИНЕ -->
+
+        <div class="t-hero">
+            <div class="t-hero-inner">
+                <span class="t-kicker">Знакомство с Трофеем</span>
+                <h1>О магазине</h1>
+                <p>
+                    «Трофей» — интернет-магазин товаров
+                    для рыбалки, охоты, туризма
+                    и активного отдыха.
+                </p>
+            </div>
+        </div>
+
+        <div class="t-wide">
+            <h2>Снаряжение для твоих приключений</h2>
+            <p>
+                Любишь выбираться на природу, рыбачить,
+                путешествовать или отдыхать за городом?
+                В каталоге «Трофея» собраны товары,
+                которые пригодятся в таких поездках.
+            </p>
+            <p>
+                Мы стремимся сделать выбор снаряжения
+                простым и понятным: удобный каталог,
+                подробные карточки товаров,
+                поиск и оформление заказа в одном месте.
+            </p>
+        </div>
+
+        <h2 class="t-section-title">Что найдёшь в каталоге</h2>
+
+        <div class="t-grid">
+            <div class="t-card">
+                <div class="t-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M3 20c4-3 7-7 9-17"/>
+                        <path d="M12 3c4 4 7 9 9 17"/>
+                        <path d="M8 14h8"/>
+                    </svg>
+                </div>
+                <h3>Рыбалка</h3>
+                <p>
+                    Удилища, катушки, приманки
+                    и принадлежности для разных
+                    способов ловли.
+                </p>
+            </div>
+
+            <div class="t-card">
+                <div class="t-icon">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="9"/>
+                        <path d="m15 9-3 6-3-3z"/>
+                        <path d="M12 3v3"/>
+                        <path d="M12 18v3"/>
+                    </svg>
+                </div>
+                <h3>Охота и туризм</h3>
+                <p>
+                    Оптика, фонари, палатки,
+                    рюкзаки и снаряжение
+                    для поездок на природу.
+                </p>
+            </div>
+
+            <div class="t-card">
+                <div class="t-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M4 5h16v14H4z"/>
+                        <path d="M4 10h16"/>
+                        <path d="M9 10v9"/>
+                    </svg>
+                </div>
+                <h3>Одежда и аксессуары</h3>
+                <p>
+                    Туристическая одежда, обувь,
+                    ножи хозяйственного назначения
+                    и полезные мелочи.
+                </p>
+            </div>
+        </div>
+
+        <div class="t-banner">
+            <div>
+                <h2>Найди то, что нужно именно тебе</h2>
+                <p>
+                    Более удобный выбор начинается
+                    с подходящей категории.
+                </p>
+            </div>
+
+            <a class="t-button" href="{{ url_for('shop.catalog') }}">
+                Смотреть товары →
+            </a>
+        </div>
+
+        {% elif page_slug == 'contacts' %}
+
+        <!-- КОНТАКТЫ -->
+
+        <div class="t-hero">
+            <div class="t-hero-inner">
+                <span class="t-kicker">Всегда на связи</span>
+                <h1>Контакты</h1>
+                <p>
+                    Вопрос по ассортименту, заказу
+                    или работе магазина?
+                    Используй контакты ниже.
+                </p>
+            </div>
+        </div>
+
+        <div class="t-grid">
+            <div class="t-card">
+                <div class="t-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M6 3h4l2 5-3 2a15 15 0 0 0 5 5l2-3 5 2v4c0 2-2 3-4 3C9 21 3 15 3 7c0-2 1-4 3-4z"/>
+                    </svg>
+                </div>
+                <span class="t-contact-label">Телефон</span>
+                <div class="t-contact-value">
+                    <a href="tel:88005550102">8 (800) 555-01-02</a>
+                </div>
+            </div>
+
+            <div class="t-card">
+                <div class="t-icon">
+                    <svg viewBox="0 0 24 24">
+                        <rect x="3" y="5" width="18" height="14" rx="2"/>
+                        <path d="m3 7 9 6 9-6"/>
+                    </svg>
+                </div>
+                <span class="t-contact-label">Электронная почта</span>
+                <div class="t-contact-value">
+                    <a href="mailto:denisznoev@gmail.com">
+                        denisznoev@gmail.com
+                    </a>
+                </div>
+            </div>
+
+            <div class="t-card">
+                <div class="t-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0z"/>
+                        <circle cx="12" cy="10" r="3"/>
+                    </svg>
+                </div>
+                <span class="t-contact-label">Адрес</span>
+                <div class="t-contact-value">
+                    г. Вологда,<br>
+                    ул. Первомайская, д. 42
+                </div>
+            </div>
+        </div>
+
+        <div class="t-wide">
+            <h2>Как с нами связаться</h2>
+            <p>
+                Для вопросов о товарах, оформлении
+                и статусе заказа можно воспользоваться
+                указанным номером телефона
+                или электронной почтой.
+            </p>
+            <p>
+                Перед личным посещением рекомендуем
+                предварительно уточнить возможность
+                приёма по указанному адресу.
+            </p>
+        </div>
+
+        <div class="t-banner">
+            <div>
+                <h2>Хочешь посмотреть ассортимент?</h2>
+                <p>Все доступные категории собраны в каталоге.</p>
+            </div>
+
+            <a class="t-button" href="{{ url_for('shop.catalog') }}">
+                Перейти в каталог →
+            </a>
+        </div>
+
+        {% else %}
+
+        <div class="t-wide">
+            <h2>Страница не найдена</h2>
+            <p>Проверь адрес или перейди в каталог магазина.</p>
+            <a class="t-button" href="{{ url_for('shop.catalog') }}">
+                Открыть каталог →
+            </a>
+        </div>
+
+        {% endif %}
+
+    </div>
+</section>
+
+{% endblock %}

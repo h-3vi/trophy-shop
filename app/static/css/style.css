@@ -397,3 +397,74 @@ h1, h2, h3, h4 { line-height: 1.25; }
   .burger { display: flex; }
   .header-inner { gap: 14px; }
 }
+
+
+/* =========================================
+   TROPHY SHOP — ВЫРАВНИВАНИЕ КАРТОЧЕК
+   ========================================= */
+
+/* Центрирование последнего неполного ряда */
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* Четыре карточки в строке */
+.grid > * {
+    flex: 0 1 calc((100% - 60px) / 4);
+    min-width: 0;
+}
+
+/* Адаптация под планшеты */
+@media (max-width: 1100px) {
+    .grid > * {
+        flex-basis: calc((100% - 40px) / 3);
+    }
+}
+
+/* Две карточки на небольших экранах */
+@media (max-width: 700px) {
+    .grid > * {
+        flex-basis: calc((100% - 20px) / 2);
+    }
+}
+
+/* Одна карточка на телефоне */
+@media (max-width: 480px) {
+    .grid > * {
+        flex-basis: 100%;
+    }
+}
+
+
+/* Фотографии популярных категорий */
+
+.category-photo {
+    width: 100%;
+    height: 160px;
+    overflow: hidden;
+    border-radius: 12px;
+    background: #edf2ed;
+    margin-bottom: 16px;
+}
+
+.category-photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.35s ease;
+}
+
+a:hover .category-photo img {
+    transform: scale(1.06);
+}
+
+@media (max-width: 768px) {
+    .category-photo {
+        height: 130px;
+    }
+}
