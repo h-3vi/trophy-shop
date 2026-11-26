@@ -82,7 +82,6 @@ def index():
 
 @shop_bp.route("/catalog")
 def catalog():
-    """Каталог с фильтрацией и сортировкой."""
 
     page = request.args.get("page", 1, type=int)
     query_text = request.args.get("q", "").strip()
